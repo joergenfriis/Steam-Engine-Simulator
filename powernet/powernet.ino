@@ -1,8 +1,23 @@
-// Program til styring af strømforsyningstavlen
+/*
+Arduino I2C slave
+til styring af strømforsyningstavlen.
+Der modtages et int (2 bytes) med tænd eller sluksignal for et enkelt relæ.
+
+Register:
+relæstilling:  1 byte  write  (tal mellem 1 og 20)
+
+Jørgen Friis 30.01.17
+*/
 
 #include <Wire.h>
+#define SLAVE_ADDRESS   0x10
+#define REG_MAP_SIZE    1
+#define MAX_SEND_BYTES  1
 
-#define SLAVE_ADDRESS 0x10
+/***** Global Variables *****/
+
+byte registerMap[REG_MAP_SIZE];
+byte nyBesked = 0;
 
 int relay2 = 2;
 int relay3 = 3;
@@ -15,8 +30,7 @@ int relay9 = 4;
 int relay10 = 10;
 int relay11 = 11;
 
-byte receiveArray[1];
-byte nyBesked = 0;
+
 
 void setup() {
   pinMode(relay2,OUTPUT);
@@ -54,7 +68,7 @@ void loop() {
   if (nyBesked == 1)
     {
       nyBesked = 0;
-      switch(receiveArray)
+      switch(registerMap[1])
       {
         case 1:
           digitalWrite(relay2,HIGH);
@@ -124,9 +138,9 @@ void receiveEvent(int byteCount)
 {
   for (int i = 0; i < byteCount; i++)
     {byte c = Wire.read();
-    receiveArray[i] = c;
+    registerMap[i] = c;
     nyBesked = 1;
-    Serial.println(receiveArray[1];   // for debugging
+    Serial.println(registerMap[1]);   // for debugging
     }
 }
 
