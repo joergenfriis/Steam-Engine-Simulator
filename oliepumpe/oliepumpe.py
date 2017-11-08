@@ -8,6 +8,7 @@
 # Programmet sender et byte til Arduinoen, der styurer reset, og det
 # modtager et int fra Arduinoen med det gennemstrømmede volumen i liter.
 #
+# Joergen Friis 08.11.17
 #****************************************************************************
 import smbus
 import time
