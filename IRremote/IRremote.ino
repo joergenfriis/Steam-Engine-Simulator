@@ -7,77 +7,107 @@
 //I den færdige veresion skal programmet modtage ordrene til hvad der skal sendes over I2C bussen,
 //sådan at Arduino loopet læser om der er kommet en ny besked, og hvis det er tilfældet, 
 //så sender den det relevante IR-remote signal til TVet.
+
+/*
+Arduino I2C slave til styring af IR remote signalet til fjernsynet.
+Register:
+Der modtages 2 bytes:
+
+første byte angiver om der er modtaget en ny besked.
+andet byte angiver hvad der skal sendes til fjernsynet.
+
+Værdier:
+1: TV ON/OF
+2: Højre pil
+3: OK
+4: Pause ON/OFF
+
+Jørgen Friis 13.07.2017
+*/
+
+#include <Wire.h>
+#define SLAVE_ADDRESS 0x42
+#define REG_MAP_SIZE 2
+#define MAX_SEND_BYTES 2
+
+byte registerMap[REG_MAP_SIZE];
  
-int IRledPin =  13;    // LED connected to digital pin 13
+int IRledPin =  12;    // LED connected to digital pin 12
  
-// The setup() method runs once, when the sketch starts
+
  
-void setup()   {                
-  // initialize the IR digital pin as an output:
+void setup()   
+{                
+  Wire.begin(SLAVE_ADDRESS);
+  Wire.onReceive(receiveEvent);
+  
+   Serial.begin(9600);
+  
   pinMode(IRledPin, OUTPUT);      
  
-  Serial.begin(9600);
+  registerMap[1] = 0;
 }
  
 void loop()                     
 {
-  Serial.println("Sending IR signal");
- 
-  SendBlaupunktONOFF();
- 
-  delay(30*1000); 
+   Serial.print(registerMap[0]);
+   Serial.print("\t");
+   Serial.println(registerMap[1]);
   
-  SendBlaupunktRIGHTARROW();
-  delay(5*1000);
-  SendBlaupunktRIGHTARROW();
-  delay(5*1000);
-  SendBlaupunktOK();
-  delay(5*1000);
-  SendBlaupunktOK();
-  delay(5*1000);
-  SendBlaupunktRIGHTARROW();
-  delay(5*1000);
-  SendBlaupunktRIGHTARROW();
-  delay(5*1000);
-  SendBlaupunktRIGHTARROW();
-  delay(5*1000);
-  SendBlaupunktOK();
-  delay(30*1000);
-  SendBlaupunktPAUSE();
-  delay(10*1000);
-  SendBlaupunktPAUSE();
-  delay(10*1000);
-  SendBlaupunktONOFF();
-  delay(30*1000);
   
+  if (registerMap[1] != 0)
+  {
+    switch (registerMap[1])
+    {
+      case '1':
+        SendBlaupunktONOFF();
+        // delay(30*1000);
+        break;
+      case '2':
+        SendBlaupunktRIGHTARROW();
+        // delay(5*1000);
+        break;
+      case '3':  
+        SendBlaupunktOK();
+        // delay(5*1000);
+        break;
+      case '4':
+        SendBlaupunktPAUSE();
+        // delay(5*1000);
+        break;
+    }
+    registerMap[1] = 0;
+  }
 }
  
 // This procedure sends a 38KHz pulse to the IRledPin 
 // for a certain # of microseconds. We'll use this whenever we need to send codes
-void pulseIR(long microsecs) {
+
+void pulseIR(long microsecs) 
+{
   // we'll count down from the number of microseconds we are told to wait
  
   cli();  // this turns off any background interrupts
  
-  while (microsecs > 0) {
+  while (microsecs > 0) 
+  {
     // 38 kHz is about 13 microseconds high and 13 microseconds low
-   digitalWrite(IRledPin, HIGH);  // this takes about 3 microseconds to happen
-   delayMicroseconds(10);         // hang out for 10 microseconds, you can also change this to 9 if its not working
-   digitalWrite(IRledPin, LOW);   // this also takes about 3 microseconds
-   delayMicroseconds(10);         // hang out for 10 microseconds, you can also change this to 9 if its not working
+    digitalWrite(IRledPin, HIGH);  // this takes about 3 microseconds to happen
+    delayMicroseconds(10);         // hang out for 10 microseconds, you can also change this to 9 if its not working
+    digitalWrite(IRledPin, LOW);   // this also takes about 3 microseconds
+    delayMicroseconds(10);         // hang out for 10 microseconds, you can also change this to 9 if its not working
  
-   // so 26 microseconds altogether
-   microsecs -= 26;
+    // so 26 microseconds altogether
+    microsecs -= 26;
   }
  
   sei();  // this turns them back on
 }
  
-void SendBlaupunktONOFF() {
+void SendBlaupunktONOFF() 
+{
   // This is the code for my Blaupunkt TV, for others use the tutorial
   // to 'grab' the proper code from the remote
-  
-  Serial.println("Sending ON/OFF");
  
   pulseIR(8760);
   delayMicroseconds(4433);
@@ -152,11 +182,10 @@ void SendBlaupunktONOFF() {
   pulseIR(533);
 }
 
-void SendBlaupunktOK() {
+void SendBlaupunktOK() 
+{
   // This is the code for my Blaupunkt TV, for others use the tutorial
   // to 'grab' the proper code from the remote
-  
-  Serial.println("Sending OK");
  
   pulseIR(8780);
   delayMicroseconds(4413);
@@ -232,11 +261,10 @@ void SendBlaupunktOK() {
 }
 
 
-void SendBlaupunktRIGHTARROW() {
+void SendBlaupunktRIGHTARROW() 
+{
   // This is the code for my Blaupunkt TV, for others use the tutorial
   // to 'grab' the proper code from the remote
-  
-  Serial.println("Sending ->");
  
   pulseIR(8793);
   delayMicroseconds(4393);
@@ -311,11 +339,10 @@ void SendBlaupunktRIGHTARROW() {
   pulseIR(547);
 }
 
-void SendBlaupunktPAUSE() {
+void SendBlaupunktPAUSE() 
+{
   // This is the code for my Blaupunkt TV, for others use the tutorial
   // to 'grab' the proper code from the remote
-  
-  Serial.println("Sending pause");
  
   pulseIR(8813);
   delayMicroseconds(4380);
@@ -389,4 +416,15 @@ void SendBlaupunktPAUSE() {
   delayMicroseconds(2180);
   pulseIR(520);
 }
+
+void receiveEvent(int byteCount)
+{
+  for (int i = 0; i < byteCount; i++)
+  {
+    byte c = Wire.read();
+    registerMap[i] = c;
+  }
+}
+
+
 

@@ -12,9 +12,9 @@ over et skydepotentiometer.
 
 Endvidere styrer det en stepmotor, der bestemmer visningen
 på en skala over omstyringens stilling. Stepmotoren aktiverer
-en microswitch i den ene yderstilling.
+en microswitch i den ene yderstilling. Stepmotoren kører med 1/4 step.
 
-Joergen Friis 11.03.2017
+Joergen Friis 30.06.2017
 */
 
 #include<Wire.h>
@@ -22,15 +22,15 @@ Joergen Friis 11.03.2017
 #define REG_MAP_SIZE     2
 
 #define ANALOG_INPUT_PIN A1
-#define MOTOR_STEP_PIN 2
-#define MOTOR_DIR_PIN 3 
-#define MOTOR_STOP_PIN 4
+#define MOTOR_STEP_PIN 3
+#define MOTOR_DIR_PIN 2 
+#define MOTOR_STOP_PIN 6
 
 /***** Global Variables ******/
 
 byte registerMap[REG_MAP_SIZE];          // Her reserveres plads til registeret i lageret
 
-int maxStep = 2500;      // Her regnes med at stepmotoren har 200*32 step på en omgang.
+int maxStep = 400;      // Her regnes med at stepmotoren har 200*4 step på en omgang.
 int minInput = 190;
 int maxInput = 820;
 int stilling = 0;
@@ -60,7 +60,7 @@ void setup()
   
   while (digitalRead(MOTOR_STOP_PIN) == HIGH)
   {
-    digitalWrite(MOTOR_DIR_PIN, LOW);
+    digitalWrite(MOTOR_DIR_PIN,LOW);
     singleStepMotor();
   }
   registerMap[0] = 0;
