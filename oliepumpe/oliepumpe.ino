@@ -51,7 +51,7 @@ void setup()
 {
   
   // Initialize a serial connection for reporting values to the host
-  Serial.begin(38400);
+  // Serial.begin(38400);
   
   Wire.begin(Slave_ADDRESS);
   Wire.onRequest(requestEvent);
@@ -122,22 +122,22 @@ void loop()
     unsigned int frac;
     
     // Print the flow rate for this second in litres / minute
-    Serial.print("Flow rate: ");
-    Serial.print(int(flowRate));  // Print the integer part of the variable
-    Serial.print(".");             // Print the decimal point
+    //Serial.print("Flow rate: ");
+    //Serial.print(int(flowRate));  // Print the integer part of the variable
+    //Serial.print(".");             // Print the decimal point
     // Determine the fractional part. The 10 multiplier gives us 1 decimal place.
     frac = (flowRate - int(flowRate)) * 10;
-    Serial.print(frac, DEC) ;      // Print the fractional part of the variable
-    Serial.print("L/min");
+    //Serial.print(frac, DEC) ;      // Print the fractional part of the variable
+    //Serial.print("L/min");
     // Print the number of litres flowed in this second
-    Serial.print("  Current Liquid Flowing: ");             // Output separator
-    Serial.print(flowMilliLitres);
-    Serial.print("mL/Sec");
+    //Serial.print("  Current Liquid Flowing: ");             // Output separator
+    //Serial.print(flowMilliLitres);
+    //Serial.print("mL/Sec");
 
     // Print the cumulative total of litres flowed since starting
-    Serial.print("  Output Liquid Quantity: ");             // Output separator
-    Serial.print(totalMilliLitres);
-    Serial.println("mL"); 
+    //Serial.print("  Output Liquid Quantity: ");             // Output separator
+    //Serial.print(totalMilliLitres);
+    //Serial.println("mL"); 
     
     totalLitres = int(totalMilliLitres / 1000);
     if (totalLitres > 255)
