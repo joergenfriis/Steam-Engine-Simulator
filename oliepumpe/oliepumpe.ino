@@ -168,7 +168,7 @@ void requestEvent()
  byte buffer[2];
  buffer[0] = registerMap[0];
  buffer[1] = registerMap[1];
- Wire.write(buffer,3);
+ Wire.write(buffer,2);
 }
 
 void receiveEvent(int byteCount)
