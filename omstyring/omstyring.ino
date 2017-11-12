@@ -12,7 +12,7 @@ over et skydepotentiometer.
 
 Viseren på omstyringen drives af en servomotor, der styres af pythonmodulet servo.py.
 
-Joergen Friis 10.11.2017
+Joergen Friis 12.11.2017
 */
 
 #include<Wire.h>
@@ -20,8 +20,6 @@ Joergen Friis 10.11.2017
 #define REG_MAP_SIZE     2
 
 #define ANALOG_INPUT_PIN A1
-#define MOTOR_STEP_PIN 3
-#define MOTOR_DIR_PIN 2 
 
 /***** Global Variables ******/
 
