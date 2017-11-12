@@ -14,13 +14,13 @@ Register:
 registerMap[0] er 0 for måling og 1 for reset af akkumuleret mængde
 registerMap[1] er antal liter målt siden sidste reset.
 
-Joergen Friis 16.04.2017
+Joergen Friis 12.11.2017
  
  */
  
 #include <Wire.h>
 #define Slave_ADDRESS 0x51
-#define REG_MAP_SIZE    3
+#define REG_MAP_SIZE    2
 #define MAX_SEND_BYTES  2
 
 /***** Global Variables *****/
