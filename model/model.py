@@ -16,6 +16,7 @@
 import smbus
 import time
 import servo
+import sys
 
 bus = smbus.SMBus(1)
 
