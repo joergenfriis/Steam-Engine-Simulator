@@ -14,14 +14,16 @@
 #******************************************************************
 
 import smbus
+import time
+import servo
 
 bus = smbus.SMBus(1)
 
 def ModelStop():
-    # Try up to 3 times on a faliure
+    # Try up to 30 times on a faliure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x52, 0, [0,127,0])
             Success = True
@@ -30,16 +32,17 @@ def ModelStop():
             print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
+        servo.gangskifte(127)
         print('model stop')
     return -1
 
 def ModelRun(energi,gear):
-    # Try up to 3 times on a faliure
+    # Try up to 30 times on a faliure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x52, 0, [energi,gear,0])
             Success = True
@@ -48,16 +51,17 @@ def ModelRun(energi,gear):
             print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
+        servo.gangskifte(gear)
         print('model run, energi= {} og gear = {}'.format(energi,gear))
     return -1
 
 def ModelReset():
-    # Try up to 3 times on a faliure
+    # Try up to 30 times on a faliure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x52, 0, [0,127,1])
             Success = True
@@ -66,7 +70,8 @@ def ModelReset():
             print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
+        servo.gangskifte(127)
         print('model reset')
     return -1
