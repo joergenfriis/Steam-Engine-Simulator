@@ -1,17 +1,17 @@
 /**********************************************************************************************************************************
-Arduini I2C slave
+Arduino I2C slave
 til styring af model-dampmaskinen.
 Register:
 Der modtages 3 bytes: 
-1. byte er et tal mellem 0 og 255, der angiver hvor meget energi motoren tilføres
-2. byte er et tal mellem 0 og 255, der angiver stillingen på gangskiftet. 255 er fuld kraft frem.
+1. byte er et tal mellem 0 og 100, der angiver hvor meget energi motoren tilføres
+2. byte er et tal mellem 0 og 100, der angiver stillingen på gangskiftet. 255 er fuld kraft frem.
 3. byte er 0 eller 1. 1 angiver at modellen skal resettes.
 
 Denne udgave, ver.2, benytter en servomotor til bevægelse af gangskiftet.
 servomotoren styres direkte fra Python programmet med programlinjen servo.gangskifte(stilling), hvor stilling er 
-0 for fuld bak og 255 for fuld frem. 127 er neutral.
+0 for fuld frem og 100 for fuld bak. 50 er neutral.
 
-Jørgen Friis 14.08.2017
+Jørgen Friis 23.08.2017
 ************************************************************************************************************************************/
 
 #include <Wire.h>
@@ -94,7 +94,7 @@ void setup()
   // Nulstil RegMap:
   
   registerMap[1] = 0;
-  registerMap[2] = 127;      // neutral stilling af gangskifte
+  registerMap[2] = 50;      // neutral stilling af gangskifte
   registerMap[3] = 0;
   
   resetEvent();
@@ -140,7 +140,7 @@ void loop()
     energiVal = registerMap[1];
     omstyrVal = registerMap[2];
     resetVal  = registerMap[3];
-    hastighed = ((energiVal*5.0)/255.0)*((omstyrVal - 127.0) / 127.0);  // mellem -20 og +20 omdr/min
+    hastighed = ((energiVal*5.0)/100.0)*((omstyrVal - 50.0) / 50.0);  // mellem -20 og +20 omdr/min
     
     if(resetVal !=0)
     {
