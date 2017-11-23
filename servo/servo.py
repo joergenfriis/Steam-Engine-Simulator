@@ -22,8 +22,8 @@ servo3_min = 327 # testet
 servo3_max = 390 # testet
 servo4_min = 240 # testet
 servo4_max = 290 # testet
-servo5_min = 246 # testet
-servo5_max = 425 # testet
+servo5_min = 280 # testet
+servo5_max = 430 # testet
 
 
 def servoNulstil():
