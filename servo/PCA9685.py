@@ -1,5 +1,5 @@
 # PCA9685.py for Python 3.4.2
-# Modified for Python 3 by Jørgen Friis 31.12.2016
+# Modified for Python 3 by Joergen Friis 31.12.2016
 #
 # Copyright (c) 2016 Adafruit Industries
 # Author: Tony DiCola
