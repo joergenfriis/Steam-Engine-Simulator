@@ -7,7 +7,7 @@ from __future__ import division
 import PCA9685 # Servo driver
 
 pwm = PCA9685.PCA9685()
-pwm.set_pwm_freq(60)    # Erfaringsværdipaa 60 Hz, der virker godt
+pwm.set_pwm_freq(60)    # Erfaringsvaerdipaa 60 Hz, der virker godt
 
 servo1 = 0   # maskintelegraf
 servo2 = 1   # røggastemperatur
