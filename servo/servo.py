@@ -10,7 +10,7 @@ pwm = PCA9685.PCA9685()
 pwm.set_pwm_freq(60)    # Erfaringsvaerdipaa 60 Hz, der virker godt
 
 servo1 = 0   # maskintelegraf
-servo2 = 1   # røggastemperatur
+servo2 = 1   # roeggastemperatur
 servo3 = 2   # kondensatortryk
 servo4 = 3   # kedeltryk
 servo5 = 4   # gangskifte                                                                                                                    
