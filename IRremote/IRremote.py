@@ -5,7 +5,7 @@
 # Slaveadressen er 0x42
 #
 # Programmet sender et heltal til Arduinoen. Tallet angiver hvilken
-# funktion, der trykkes på på fjernbetjeningen:
+# funktion, der trykkes paa fjernbetjeningen:
 #
 # 1: On/Off
 # 2: Right Arrow
