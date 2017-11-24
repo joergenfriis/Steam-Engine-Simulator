@@ -20,7 +20,7 @@
 # 10,           13,         14          Simulator klar: 24 V DC
 # 11,           15,         16          Skibsbro 24 + 12 V DC
 #*************************************************************************
-# Joergen Friis 18.07.2017
+# Joergen Friis 16.11.2017
 #*************************************************************************
 import smbus
 import time
@@ -29,10 +29,10 @@ import sys
 bus = smbus.SMBus(1)
 
 def Relay2on():
-    # Try up to 3 times on a failure
+    # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[1]) # send 1 til arduinoen
             # if we get here, we succeeded, so break out of the loop
@@ -43,16 +43,16 @@ def Relay2on():
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 2 on")
     return -1
 
 def Relay2off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[2]) # send 2 til arduinoen
             # if we get here, we succeeded, so break out of the loop
@@ -62,16 +62,16 @@ def Relay2off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 2 off")
     return -1
 
 def Relay3on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[3])
             # if we get here, we succeeded, so break out of the loop
@@ -81,16 +81,16 @@ def Relay3on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 3 on")
     return -1
 
 def Relay3off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[4])
             # if we get here, we succeeded, so break out of the loop
@@ -100,16 +100,16 @@ def Relay3off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 3 off")
     return -1
 
 def Relay4on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[7])
             # if we get here, we succeeded, so break out of the loop
@@ -119,16 +119,16 @@ def Relay4on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 4 on")
     return -1
 
 def Relay4off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[8])
             # if we get here, we succeeded, so break out of the loop
@@ -138,16 +138,16 @@ def Relay4off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 4 off")
     return -1
 
 def Relay5on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[9])
             # if we get here, we succeeded, so break out of the loop
@@ -157,16 +157,16 @@ def Relay5on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 5 on")
     return -1
 
 def Relay5off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[10])
             # if we get here, we succeeded, so break out of the loop
@@ -176,16 +176,16 @@ def Relay5off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 5 off")
     return -1
 
 def Relay6on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[5])
             # if we get here, we succeeded, so break out of the loop
@@ -195,16 +195,16 @@ def Relay6on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 6 on")
     return -1
 
 def Relay6off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[6])
             # if we get here, we succeeded, so break out of the loop
@@ -214,16 +214,16 @@ def Relay6off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 6 off")
     return -1
 
 def Relay7on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[19])
             # if we get here, we succeeded, so break out of the loop
@@ -233,16 +233,16 @@ def Relay7on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 7 on")
     return -1
 
 def Relay7off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[20])
             # if we get here, we succeeded, so break out of the loop
@@ -252,16 +252,16 @@ def Relay7off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 7 off")
     return -1
 
 def Relay8on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[17])
             # if we get here, we succeeded, so break out of the loop
@@ -271,16 +271,16 @@ def Relay8on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 8 on")
     return -1
 
 def Relay8off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[18])
             # if we get here, we succeeded, so break out of the loop
@@ -290,16 +290,16 @@ def Relay8off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 8 off")
     return -1
 
 def Relay9on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[11])
             # if we get here, we succeeded, so break out of the loop
@@ -309,16 +309,16 @@ def Relay9on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 9 on")
     return -1
 
 def Relay9off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[12])
             # if we get here, we succeeded, so break out of the loop
@@ -328,16 +328,16 @@ def Relay9off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 9 off")
     return -1
 
 def Relay10on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[13])
             # if we get here, we succeeded, so break out of the loop
@@ -347,16 +347,16 @@ def Relay10on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 10 on")
     return -1
 
 def Relay10off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[14])
             # if we get here, we succeeded, so break out of the loop
@@ -366,16 +366,16 @@ def Relay10off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 10 off")
     return -1
 
 def Relay11on():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[15])
             # if we get here, we succeeded, so break out of the loop
@@ -385,16 +385,16 @@ def Relay11on():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 11 on")
     return -1
 
 def Relay11off():
-     # Try up to 3 times on a failure
+     # Try up to 30 times on a failure
     Success = False
     caught_exception = None
-    for _ in range (3):
+    for _ in range (30):
         try:
             bus.write_i2c_block_data(0x10,0,[16])
             # if we get here, we succeeded, so break out of the loop
@@ -404,7 +404,7 @@ def Relay11off():
             print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        Print("Failed after 3 retries")
+        print("Failed after 30 retries")
     if Success:
         print("Relay 11 off")
     return -1
