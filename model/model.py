@@ -5,12 +5,12 @@
 # Slaveadresse er 0x52
 #
 # Programmet sender en streng med 3 bytes til Arduinoen.
-# Foerste byte er et tal mellem 0 og 255, der angiver den tilfoerte energi.
-# Andet byte er et tal mellem 0 og 255, der angiver omstyringens stilling.
-# 127 er neutral stilling.
+# Foerste byte er et tal mellem 0 og 100, der angiver den tilfoerte energi.
+# Andet byte er et tal mellem 0 og 100, der angiver omstyringens stilling.
+# 50 er neutral stilling.
 # Tredje byte er 0 eller 1. 1 angiver at modellen skal resettes.
 #
-# 16.11.2017 Joergen Friis
+# 24.11.2017 Joergen Friis
 #******************************************************************
 
 import smbus
@@ -26,7 +26,7 @@ def ModelStop():
     caught_exception = None
     for _ in range (30):
         try:
-            bus.write_i2c_block_data(0x52, 0, [0,127,0])
+            bus.write_i2c_block_data(0x52, 0, [0,50,0])
             Success = True
             break
         except:
@@ -35,7 +35,7 @@ def ModelStop():
     if not Success:
         print("Failed after 30 retries")
     if Success:
-        servo.gangskifte(127)
+        servo.gangskifte(50)
         print('model stop')
     return -1
 
@@ -64,7 +64,7 @@ def ModelReset():
     caught_exception = None
     for _ in range (30):
         try:
-            bus.write_i2c_block_data(0x52, 0, [0,127,1])
+            bus.write_i2c_block_data(0x52, 0, [0,50,1])
             Success = True
             break
         except:
@@ -73,6 +73,6 @@ def ModelReset():
     if not Success:
         print("Failed after 30 retries")
     if Success:
-        servo.gangskifte(127)
+        servo.gangskifte(50)
         print('model reset')
     return -1
