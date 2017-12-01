@@ -12,7 +12,7 @@ Joergen Friis 01.12.2017
 
 #include <Wire.h>
 #define Slave_ADDRESS 0x33
-#define REG_MAP_SIZE 3
+#define REG_MAP_SIZE 1
 #define MAX_SEND_BYTES 1
 
 int encoderPin1 = 2;  //det skal vaere interrupt PIN nr 2 og 3
