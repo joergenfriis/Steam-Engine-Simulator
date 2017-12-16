@@ -11,7 +11,7 @@ Denne udgave, ver.2, benytter en servomotor til bevægelse af gangskiftet.
 servomotoren styres direkte fra Python programmet med programlinjen servo.gangskifte(stilling), hvor stilling er 
 0 for fuld frem og 100 for fuld bak. 50 er neutral.
 
-Jørgen Friis 23.08.2017
+Jørgen Friis 16.12.2017
 ************************************************************************************************************************************/
 
 #include <Wire.h>
@@ -97,6 +97,7 @@ void setup()
   registerMap[2] = 50;      // neutral stilling af gangskifte
   registerMap[3] = 0;
   
+  delay(60000);       //Vent et minut paa at gangskiftet er i neutral foer hovedaksden roteres
   resetEvent();
   stepPosMain = 0;
   
