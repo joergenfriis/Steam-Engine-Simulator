@@ -29,7 +29,7 @@ Joergen Friis 19.12.2017
 
 byte registerMap[REG_MAP_SIZE];
 
-const int numReadings = 100; // antal maalinger i gennemsnittet
+const int numReadings = 10; // antal maalinger i gennemsnittet
 
 int readingsA[numReadings];
 int readIndexA = 0;
@@ -61,18 +61,18 @@ int readIndexF = 0;
 int totalF = 0;
 int averageF = 0;
 
-int Amin = 200;
-int Amax = 800;
-int Bmin = 200;
-int Bmax = 800;
-int Cmin = 200;
-int Cmax = 800;
-int Dmin = 200;
-int Dmax = 800;
-int Emin = 200;
-int Emax = 800;
-int Fmin = 200;
-int Fmax = 800;
+int Amin = 397;
+int Amax = 842;
+int Bmin = 447;
+int Bmax = 825;
+int Cmin = 309;  //eksperimentelt bestemt
+int Cmax = 828;
+int Dmin = 341;
+int Dmax = 759;
+int Emin = 292;
+int Emax = 1023;
+int Fmin = 270;
+int Fmax = 953;
 
 
 void setup()
@@ -80,19 +80,19 @@ void setup()
   Wire.begin(Slave_ADDRESS);
   Wire.onRequest(requestEvent);
   
-  Serial.begin(9600);
+  //Serial.begin(9600);
   
   for (int i = 0; i < REG_MAP_SIZE; i++)
   {
     registerMap[i] = 0;
   }
   
-  pinMode(A0, INPUT);  //damp ind         (A)
-  pinMode(A1, INPUT);  //damp ud          (B)
-  pinMode(A2, INPUT);  //kondensator ind  (C)
-  pinMode(A3, INPUT);  //kondensator ud   (D)
-  pinMode(A6, INPUT);  //kedelvand ind    (E)
-  pinMode(A7, INPUT);  //kedelvand ud     (F)
+  pinMode(A7, INPUT);  //damp ind         (A)
+  pinMode(A6, INPUT);  //damp ud          (B)
+  pinMode(A3, INPUT);  //kondensator ind  (C)
+  pinMode(A2, INPUT);  //kondensator ud   (D)
+  pinMode(A1, INPUT);  //kedelvand ind    (E)
+  pinMode(A0, INPUT);  //kedelvand ud     (F)
   
   for (int i = 0; i < numReadings; i++)
   {
@@ -111,81 +111,99 @@ void loop()
    
   totalA = totalA - readingsA[readIndexA];
   readingsA[readIndexA] = analogRead(A0);
+  //Serial.print("analogReadA = ");
+  //Serial.println(analogRead(A0));
+  
   totalA = totalA + readingsA[readIndexA];
   readIndexA = readIndexA + 1;
   if (readIndexA >= numReadings) readIndexA = 0;
   averageA = totalA / numReadings;
-  Serial.print("averageA before mapping: ");
-  Serial.println(averageA);
+  //Serial.print("averageA before mapping: ");
+  //Serial.println(averageA);
   averageA = map(averageA, Amin, Amax, 0, 100);
-  Serial.print("averageA after mapping: ");
-  Serial.println(averageA);
+  //Serial.print("averageA after mapping: ");
+  //Serial.println(averageA);
   registerMap[0] = averageA;
   
   totalB = totalB - readingsB[readIndexB];
   readingsB[readIndexB] = analogRead(A1);
+  //Serial.print("analogReadB = ");
+  //Serial.println(analogRead(A1));
+
   totalB = totalB + readingsB[readIndexB];
   readIndexB = readIndexB + 1;
   if (readIndexB >= numReadings) readIndexB = 0;
   averageB = totalB / numReadings;
-  Serial.print("averageB before mapping: ");
-  Serial.println(averageB);
+  //Serial.print("averageB before mapping: ");
+  //Serial.println(averageB);
   averageB = map(averageB, Bmin, Bmax, 0, 100);
-  Serial.print("averageB after mapping: ");
-  Serial.println(averageB);
+  //Serial.print("averageB after mapping: ");
+  //Serial.println(averageB);
   registerMap[1] = averageB;
 
   totalC = totalC - readingsC[readIndexC];
   readingsC[readIndexC] = analogRead(A2);
+  //Serial.print("analogReadC = ");
+  //Serial.println(analogRead(A2));
+
   totalC = totalC + readingsC[readIndexC];
   readIndexC = readIndexC + 1;
   if (readIndexC >= numReadings) readIndexC = 0;
   averageC = totalC / numReadings;
-  Serial.print("averageC before mapping: ");
-  Serial.println(averageC);
+  //Serial.print("averageC before mapping: ");
+  //Serial.println(averageC);
   averageC = map(averageC, Cmin, Cmax, 0, 100);
-  Serial.print("averageC after mapping: ");
-  Serial.println(averageC);
+  //Serial.print("averageC after mapping: ");
+  //Serial.println(averageC);
   registerMap[2] = averageC;
 
   totalD = totalD - readingsD[readIndexD];
   readingsD[readIndexD] = analogRead(A3);
+  //Serial.print("analogReadD = ");
+  //Serial.println(analogRead(A3));
+
   totalD = totalD + readingsD[readIndexD];
   readIndexD = readIndexD + 1;
   if (readIndexD >= numReadings) readIndexD = 0;
   averageD = totalD / numReadings;
-  Serial.print("averageD before mapping: ");
-  Serial.println(averageD);
+  //Serial.print("averageD before mapping: ");
+  //Serial.println(averageD);
   averageD = map(averageD, Dmin, Dmax, 0, 100);
-  Serial.print("averageD after mapping: ");
-  Serial.println(averageD);
+  //Serial.print("averageD after mapping: ");
+  //Serial.println(averageD);
   registerMap[3] = averageD;
 
   totalE = totalE - readingsE[readIndexE];
   readingsE[readIndexE] = analogRead(A6);
+  //Serial.print("analogReadE = ");
+  //Serial.println(analogRead(A6));
+
   totalE = totalE + readingsE[readIndexE];
   readIndexE = readIndexE + 1;
   if (readIndexE >= numReadings) readIndexE = 0;
   averageE = totalE / numReadings;
-  Serial.print("averageE before mapping: ");
-  Serial.println(averageE);
+  //Serial.print("averageE before mapping: ");
+  //Serial.println(averageE);
   averageE = map(averageE, Emin, Emax, 0, 100);
-  Serial.print("averageE after mapping: ");
-  Serial.println(averageE);
+  //Serial.print("averageE after mapping: ");
+  //Serial.println(averageE);
   registerMap[4] = averageE;
 
   totalF = totalF - readingsF[readIndexF];
   readingsF[readIndexF] = analogRead(A7);
+  //Serial.print("analogReadF = ");
+  //Serial.println(analogRead(A7));
+
   totalF = totalF + readingsF[readIndexF];
   readIndexF = readIndexF + 1;
   if (readIndexF >= numReadings) readIndexF = 0;
   averageF = totalF / numReadings;
-  Serial.print("averageF before mapping: ");
-  Serial.println(averageF);
+  //Serial.print("averageF before mapping: ");
+  //Serial.println(averageF);
   averageF = map(averageF, Fmin, Fmax, 0, 100);
-  Serial.print("averageF after mapping: ");
-  Serial.println(averageF);
-  Serial.println();
+  //Serial.print("averageF after mapping: ");
+  //Serial.println(averageF);
+  //Serial.println();
   registerMap[5] = averageF; 
 }
 
