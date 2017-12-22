@@ -8,7 +8,7 @@
 # Programmet sender et byte til Arduinoen, der styrer reset, og det modtager
 # et int fra arduinoen med den vejede masse i gram.
 #
-# Joergen Friis 12.12.2017
+# Joergen Friis 22.12.2017
 #
 #****************************************************************************
 import smbus
@@ -43,7 +43,7 @@ def Read_vejecelle():
     caught_exception = None
     for _ in range(30):
         try:
-            bus.read_i2c_block_data(0x31,0)
+            data = bus.read_i2c_block_data(0x31,0)
             Success = True
             break
         except:
