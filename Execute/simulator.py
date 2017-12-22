@@ -64,7 +64,7 @@
 # virkning[20] = Maskintelegrafens stilling
 # 
 #
-# Joergen Friis 20.12.2017
+# Joergen Friis 22.12.2017
 #
 #############################################################################
 
@@ -139,6 +139,9 @@ transport.TransportStop()
 # Nulstil vejecellen
 vejecelle.Reset_vejecelle()
 
+# Nulstil oliepumpen
+oliepumpe.Reset_flowmaaler()
+
 # Udfoer alle virkninger
 servo.gangskifte(virkning[0]) 
 model.ModelRun(virkning[1],virkning[0])
@@ -184,11 +187,24 @@ while True:
 
     # registrer handlinger
     handling[0] = omstyring.Read_omstyring()
-    handling[1] = 
-    
+    handling[1] = oliepumpe.Read_flowmaaler()
+    handling[2] = primaerluft.Read_primaerluft()
+    handling[3] = sekundaerluft.Read_sekundaerluft()
+    handling[4] = vejecelle.Read_vejecelle() / 1000
+    handling[5] = ventiler.readKedelvandInd()
+    handling[6] = ventiler.readKedelvandUd()
+    handling[7] = ventiler.readKondensatorvandInd()
+    handling[8] = ventiler.readKondensatorvandUd()
+    handling[9] = ventiler.readDampInd()
+    handling[10] = ventiler.readDampUd()
+    handling[11] = 0 # Her kommer noget om programvalg
 
-
-
+    # Beregn tilstand
+    tilstand[0] = handling[0]
+    tilstand[1] = tilstand[1] + handling[1] - (design[2] * tid * design[7] / 3600 * tilstand[8]
+    tilstand[2] = handling[2] * 1.23 # gange den maksimale primaere luftmaengde i m3/sek
+    tilstand[3] = handling[3] * 2.46 # gange den maksimale sekundaere luftmaengde i m3/sek
+    tilstand[4] = 
 
 
 
