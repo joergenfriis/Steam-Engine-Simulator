@@ -22,15 +22,16 @@ Værdier:
 3: OK
 4: Pause ON/OFF
 
-Jørgen Friis 13.07.2017
+Jørgen Friis 25.12.2017
 */
 
 #include <Wire.h>
 #define SLAVE_ADDRESS 0x42
-#define REG_MAP_SIZE 2
-#define MAX_SEND_BYTES 2
+#define REG_MAP_SIZE 1
+#define MAX_SEND_BYTES 1
 
 byte registerMap[REG_MAP_SIZE];
+byte nyBesked = 0;
  
 int IRledPin =  12;    // LED connected to digital pin 12
  
@@ -41,39 +42,33 @@ void setup()
   Wire.begin(SLAVE_ADDRESS);
   Wire.onReceive(receiveEvent);
   
-   Serial.begin(9600);
-  
   pinMode(IRledPin, OUTPUT);      
- 
-  registerMap[1] = 0;
 }
  
 void loop()                     
 {
-   Serial.print(registerMap[0]);
-   Serial.print("\t");
-   Serial.println(registerMap[1]);
+  delay(100);
   
-  
-  if (registerMap[1] != 0)
+  if (nyBesked == 1);
   {
+    nyBesked = 0;
     switch (registerMap[1])
     {
-      case '1':
+      case 1:
         SendBlaupunktONOFF();
-        // delay(30*1000);
+        //delay(30*1000);
         break;
-      case '2':
+      case 2:
         SendBlaupunktRIGHTARROW();
-        // delay(5*1000);
+        //delay(5*1000);
         break;
-      case '3':  
+      case 3:  
         SendBlaupunktOK();
-        // delay(5*1000);
+        //delay(5*1000);
         break;
-      case '4':
+      case 4:
         SendBlaupunktPAUSE();
-        // delay(5*1000);
+        //delay(5*1000);
         break;
     }
     registerMap[1] = 0;
@@ -423,6 +418,7 @@ void receiveEvent(int byteCount)
   {
     byte c = Wire.read();
     registerMap[i] = c;
+    nyBesked = 1;
   }
 }
 
