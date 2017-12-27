@@ -24,8 +24,8 @@ byte registerMap[REG_MAP_SIZE];
 
 
 
-servo dampServo;
-servo kondensServo;
+Servo dampServo;
+Servo kondensServo;
 
 int tryk = 0;
 int vacuum = 0;
@@ -48,7 +48,7 @@ void loop()
   tryk = registerMap[0];
   tryk = map(tryk, 0, 100, 0, 180);
   dampServo.write(tryk);
-  delay(15)
+  delay(15);
   
   vacuum = registerMap[1];
   vacuum = map(vacuum, 0, 100, 0, 180);
