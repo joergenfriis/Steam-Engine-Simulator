@@ -2,7 +2,7 @@
 #
 # modul, der styrer manometre for damptryk og kondensatorvacuum.
 #
-#Slaveadressen er 0x43
+# Slaveadressen er 0x43
 #
 # Programmet sendet to heltal til Arduinoen:
 # Foerste tal angiver hvor mange grader motoren i vacuummeteret skal dreje.
@@ -12,7 +12,7 @@
 # angiver trykket.
 #
 #***************************************************************************
-# Joergen Friis 27.12.2017
+# Joergen Friis 29.12.2017
 #***************************************************************************
 
 import smbus
@@ -21,7 +21,9 @@ import sys
 
 bus = smbus.SMBus(1)
 
-def kondensator(vacuum,tryk):
+def vis(vacuum,tryk):
+    tryk = int(1.50 * tryk + 48)
+    vacuum = int(22 * vacuum + 80)
     Success = False
     caught_exception = None
     for _ in range (30):
