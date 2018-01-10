@@ -1,9 +1,9 @@
 # demo.py
 #
-# Program, der demonstrerer nogle af simulatorens funktioner,
+# Modul, der demonstrerer nogle af simulatorens funktioner,
 # uden at modtage brugerinput.
 #
-# Joergen Friis 14.12.2017
+# Joergen Friis 10.01.2018
 #
 #*****************************************************************************
 
@@ -14,9 +14,7 @@ import model
 import IRremote
 import servo
 
-while True:
-
-    print("Demoprogram starter")
+def demo():
 
     model.ModelStop()
 
@@ -31,23 +29,23 @@ while True:
     powernet.Relay6on()     # Taend for TV skaerm
     time.sleep(10)
 
-   # IRremote.TVonOff()      # Start filmen
-   # time.sleep(5)
-   # IRremote.TVrightArrow()
-   # time.sleep(1)
-   # IRremote.TVrightArrow()
-   # time.sleep(1)
-   # IRremote.TVok()
-   # time.sleep(1)
-   # IRremote.TVok()
-   # time.sleep(1)
-   # IRremote.TVrightArrow()
-   # time.sleep(1)
-   # IRremote.TVrightArrow()
-   # time.sleep(1)
-   # IRremote.TVrightArrow()
-   # time.sleep(1)
-   # IRremote.TVok()
+    IRremote.TVonOff()      # Start filmen
+    time.sleep(5)
+    IRremote.TVrightArrow()
+    time.sleep(1)
+    IRremote.TVrightArrow()
+    time.sleep(1)
+    IRremote.TVok()
+    time.sleep(1)
+    IRremote.TVok()
+    time.sleep(1)
+    IRremote.TVrightArrow()
+    time.sleep(1)
+    IRremote.TVrightArrow()
+    time.sleep(1)
+    IRremote.TVrightArrow()
+    time.sleep(1)
+    IRremote.TVok()
     
 
     pygame.mixer.init()     # Afspil reallyd fra maskinrummet paa Bjoern
@@ -135,5 +133,4 @@ while True:
     time.sleep(1)
     powernet.Relay6off()
 
-    print("Demoprogram genstarter")
 
