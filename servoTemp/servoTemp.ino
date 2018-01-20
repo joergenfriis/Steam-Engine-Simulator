@@ -47,7 +47,7 @@ void loop()
   temp = registerMap[1];
   Serial.print("Temp = ");
   Serial.println(temp);
-  temp = map(temp, 0, 100, 80 , 90);
+  temp = map(temp, 0, 100, 0, 180);
   tempServo.write(temp);
   delay(15);
   
