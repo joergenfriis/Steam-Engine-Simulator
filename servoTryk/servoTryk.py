@@ -12,7 +12,7 @@
 # angiver trykket.
 #
 #***************************************************************************
-# Joergen Friis 29.12.2017
+# Joergen Friis 24.01.2018
 #***************************************************************************
 
 import smbus
@@ -22,7 +22,7 @@ import sys
 bus = smbus.SMBus(1)
 
 def vis(vacuum,tryk):
-    tryk = int(1.50 * tryk + 48)
+    tryk = int(1.3 * tryk + 48)
     vacuum = int(22 * vacuum + 80)
     Success = False
     caught_exception = None
