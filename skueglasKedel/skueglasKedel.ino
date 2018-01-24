@@ -10,7 +10,7 @@
  
  Pumpen har 200 step paa en omdrejning, hvilket svarer til XX cm på skueglasset.
 
- Joergen Friis 20/12-2017
+ Joergen Friis 24/01-2018
 ****************************************************************/
 
 #include <Wire.h>
@@ -71,7 +71,7 @@ void setup()
 // Afvikling af programmet
 void loop()
 {
-  delay(10000);
+  delay(100);
   //Serial.print("Loop procedure, analogRead = ");
   //Serial.println(analogRead(irRead));
   int niveau = registerMap[0];
