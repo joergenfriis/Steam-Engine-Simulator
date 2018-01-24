@@ -14,7 +14,7 @@
  
  Pumpen har 200 step paa en omdrejning, hvilket svarer til XX cm på skueglasset.
 
- Joergen Friis 04/12-2017
+ Joergen Friis 24/01-2018
 ****************************************************************/
 
 #include <Wire.h>
@@ -52,8 +52,8 @@ void setup()
   Wire.begin(Slave_ADDRESS);
   Wire.onReceive(receiveEvent);
   
-  Serial.begin(9600);
-  Serial.println("Setup begin");
+ // Serial.begin(9600);
+ // Serial.println("Setup begin");
   
   for (int i = 0; i < 1; i++)
   {
@@ -72,12 +72,12 @@ void setup()
 // Afvikling af programmet
 void loop()
 {
-  delay(10000);
+  delay(100);
   int niveau = registerMap[0];
-  Serial.print("Niveau = ");
-  Serial.println(niveau);
-  Serial.print("Hoejde = ");
-  Serial.println(hoejde);
+  //Serial.print("Niveau = ");
+  //Serial.println(niveau);
+  //Serial.print("Hoejde = ");
+  //Serial.println(hoejde);
   if (niveau < 101) vaeske(niveau);
   if (niveau == 110) vaeske(hoejde+1);
   if (niveau == 111) vaeske(hoejde-1);
@@ -96,8 +96,8 @@ void singleStep()
 
 void reset()
 {
-    Serial.print("Reset procedure, analogRead = ");
-    Serial.println(analogRead(irRead));
+   // Serial.print("Reset procedure, analogRead = ");
+   // Serial.println(analogRead(irRead));
    while (analogRead(irRead) < limit)  // der pumpes væske over i reservoir røret til lysstrålen brydes.
   {
     digitalWrite(motorRetning, HIGH);
@@ -109,8 +109,8 @@ void reset()
 
 void vaeske(int niveau)
 {
-  Serial.print("Vaeske procedure, niveau = ");
-  Serial.println(niveau);
+ // Serial.print("Vaeske procedure, niveau = ");
+  //Serial.println(niveau);
   if (niveau != hoejde)
   {
     if (niveau > hoejde)
