@@ -89,7 +89,7 @@
 # virkning[23] = Lyd af damp i roer
 # 
 #
-# Joergen Friis 24.01.2018
+# Joergen Friis 25.01.2018
 #
 #############################################################################
 
@@ -114,6 +114,7 @@ import servoTryk
 import sikkerhedsventil
 import oliepumpe
 import sekundaerLuft
+import damptabel
 
 print("Starter simulatorprogram")
 
@@ -123,10 +124,13 @@ print("Initiering")
 
 time.sleep(10)
 
-design = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14]
+design = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
 handling = [0,1,2,3,4,5,6,7,8,9,10,11]
-tilstand = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+tilstand = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
 virkning = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+
+dampTabel = damptabel.damptabel
+tilstandTabel = damptabel.dampTilstand
 
 
 servoTryk.vis(0.5,5) #For at faa instrumenterne til at falde til ro
@@ -151,6 +155,7 @@ design[11] = 1.4
 design[12] = 0.7
 design[13] = 0.000278
 design[14] = 1
+design[15] = 95
 
 # Aflaes handlinger
 
@@ -204,7 +209,7 @@ tilstand[9] = 3
 tilstand[10] = 0
 tilstand[11] = 0
 tilstand[12] = 0
-tilstand[13] = tilstand[13]
+tilstand[13] = design[15]
 tilstand[14] = 0
 tilstand[15] = 0
 tilstand[16] = 0
@@ -216,6 +221,7 @@ tilstand[21] = 0
 tilstand[22] = 0
 tilstand[23] = 0
 tilstand[24] = 0
+tilstand[25] = 0
 
 # beregn virkningerne
 
@@ -243,6 +249,16 @@ virkning[20] = tilstand[9]
 virkning[21] = 0
 virkning[22] = 0
 virkning[23] = 0
+
+# Beregn kedlens samlede enthalpi i starttilstanden vha damptabellen
+for x in range(len(dampTabel)):
+    if dampTabel[x][1] > tilstand[13]:
+        break
+enthalpiVand = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][3],tilstand[13],dampTabel[x][1],dampTabel[x][3])
+enthalpiDamp = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][4],tilstand[13],dampTabel[x][1],dampTabel[x][4])
+volumenDamp = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][2],tilstand[13],dampTabel[x][1],dampTabel[x][2])
+tilstand[17] = (((design[1]-tilstand[5])/1000)/volumenDamp)         # kg damp i kedlen
+tilstand[25] = tilstand[5]*enthalpiVand + tilstand[17]*enthalpiDamp # enthalpi i kedlen
 
 # Toem transportbaandet for kul
 transport.TransportGo(150)  
@@ -497,85 +513,28 @@ while True:
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
 
-    # Dampproduktion eller fortaetning
+    # Dampproduktion A -> F
+    # A: opslag i damptabellen ved den aktuelle temperatur
 
-    lnTryk = math.log(tilstand[6] +1)
-    print("lnTryk = ",lnTryk)
-    potensTryk = math.pow(tilstand[6]+1,-0.939)
-    print("potensTryk = ",potensTryk)
+    for x in range(len(dampTabel)):
+    if dampTabel[x][1] > tilstand[13]:
+        break
+    enthalpiVandSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][3],tilstand[13],dampTabel[x][1],dampTabel[x][3])
+    enthalpiDampSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][4],tilstand[13],dampTabel[x][1],dampTabel[x][4])
+    volumenDampSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][2],tilstand[13],dampTabel[x][1],dampTabel[x][2])
 
-    
-    
-    if ((abs(tilstand[13] - (27.606 * lnTryk + 100)) > 2) and (tilstand[13] > 100)):
-        print("tilstand[13], kedeltemperatur, = ",tilstand[13])
-        print("ligevaegtstemperatur: 27.606 * lnTryk + 100 = ",27.606 * lnTryk + 100)
-        print("Ej ligevaegt")
+    # B: vand ind og ud
+    tilstand[5] = tilstand[5] + (handling[5]/100)*design[8] - (handling[6]/100)*design[8] + tilstand[20]
+    tilstand[25] = tilstand[25] + (handling[5]/100)*design[8])*dampTabel[0][3] - (handling[6]/100)*design[8]*enthalpiVandSpc + tilstand[20]*dampTabel[15][3]                                 
 
-        if int(tilstand[13]) > int(27.606 * lnTryk + 100):
-            print("for varm")
-            print("tilstand[5], liter vand i kedel, foer = ",tilstand[5])
-            if tilstand[5] >1:
-                tilstand[5] = tilstand[5] - design[14]
-                tilstand[17] = tilstand[17] + design[14]
-            print("tilstand[5], liter vand i kedel, efter = ",tilstand[5])
-            tilstand[13] = tilstand[13] - (531.33 - 18.22 * lnTryk)/4.186 / tilstand[5]
-            print("tilstand[13], kedeltemperatur, efter = ",tilstand[13])
-            V = 1.7259 * potensTryk * design[14]
-            print("V, volumen af dannet damp = ",V)
-            Vd = (design[1] - tilstand[5])/1000
-            print("Vd, volumen af damprummet = ",Vd)
-            print("tilstand[6], kedeltryk i bar overtryk, foer = ",tilstand[6])
-            tilstand[6] = tilstand[6] + V/Vd
-            print("tilstand[6], kedeltryk i bar overtryk, efter = ",tilstand[6])
-            lnTryk = math.log(tilstand[6] +1)
-            print("lnTryk = ",lnTryk)
-            potensTryk = math.pow(tilstand[6]+1,-0.939)
-            print("potensTryk = ",potensTryk)
-
-        else:
-            print("for kold")
-            print("tilstand[5], liter vand i kedel, foer = ",tilstand[5])
-            tilstand[5] = tilstand[5] + design[14]
-            tilstand[17] = tilstand[17] - design[14]
-            print("tilstand[5], liter vand i kedel, efter = ",tilstand[5])
-            tilstand[13] = tilstand[13] + (531.33 - 18.22 * lnTryk)/4.186 / tilstand[5]
-            print("tilstand[13], kedeltemperatur, efter = ",tilstand[13])
-            V = 1.7259 * potensTryk * design[14]
-            print("V, volumen af fortaettet damp = ",V)
-            Vd = (design[1] - tilstand[5])/1000
-            print("Vd, volumen af damprummet = ",Vd)
-            print("tilstand[6], kedeltryk i bar overtryk, foer = ",tilstand[6])
-            tilstand[6] = tilstand[6] - V/Vd
-            if tilstand[6] < 0:
-                tilstand[6] = 0
-            print("tilstand[6], kedeltryk i bar overtryk, efter = ",tilstand[6])
-            lnTryk = math.log(tilstand[6] +1)
-            print("lnTryk = ",lnTryk)
-            potensTryk = math.pow(tilstand[6]+1,-0.939)
-            print("potensTryk = ",potensTryk)
-
-
-    if (handling[4] > 0):
-        tilstand[13] = tilstand[13] + tilstand[10] * 1/4.186/ tilstand[5]
-        print("Kedeltemperatur efter indfyring = ",tilstand[13])
+    # C: energi ind og ud
+    if (handling[4] > 0:
+        tilstand[25] = tilstand[25] + tilstand[10]
     else:
-        tilstand[13] = tilstand[13] - 31.2 * (tilstand[13] - 20) * 70 * 4.184/3600 * 1/4.186/tilstand[5]
-        print("Kedeltemperatur efter afkoeling = ",tilstand[13])
-        
-    # Roeggastemperatur i skorsten
+        tilstand[25] = tilstand[25] - 31.2*(tilstand[13]-20)*70*4.184/3600
 
-    if tilstand[2] > 0:
-        if ((handling[3] <= 10) and (tilstand[2]>0)):
-            tilstand[24] = tilstand[13] + 50
-        if ((handling[3] > 10) and (tilstand[2]>0)):
-            tilstand[24] = tilstand[13] + 50 - 30*(handling[3]/100)
-        tilstand[24] = tilstand[24] + (600-tilstand[24])* tilstand[11]/100
-    else:
-        tilstand[24] = 50
-
-    # Dampdistribution
-
-    if (tilstand[6] > 10):
+    # D: damp ud
+        if (tilstand[6] > 10):
         tilstand[16] = 1
 
     if ((handling[9]+handling[10]+tilstand[16]) == 0):
@@ -589,6 +548,33 @@ while True:
         
     tilstand[14] = tilstand[14] + tilstand[18]
     tilstand[15] = tilstand[15] + tilstand[19]
+    tilstand[25] = tilstand[25] - (tilstand[18] + tilstand[19])*enthalpiDampSpc
+
+    # E: Beregn ny damptabel, dampTilstand, (p (bar abs), t (0C), kedlens samlede enthalpi (kJ))
+
+    for y in range(len(tilstandTabel)):
+        tilstandTabel[y][2] = tilstand[5]*dampTabel[y][3]+tilstand[17]*dampTabel[y][4]
+
+    # F: Find tryk og temperatur for den nye tilstand
+
+    for x in range(len(tilstandTabel)):
+        if tilstandTabel[x][2] > tilstand[25]:
+            break
+
+    tilstand[6] = damptabel.interpol(tilstandTabel[x-1][2],tilstandTabel[x-1][0],tilstand[25],tilstandTabel[x][2],tilstandTabel[x][0]) 
+    tilstand[13] = damptabel.interpol(tilstandTabel[x-1][2],tilstandTabel[x-1][1],tilstand[25],tilstandTabel[x][2],tilstandTabel[x][1])
+
+        
+    # Roeggastemperatur i skorsten
+
+    if tilstand[2] > 0:
+        if ((handling[3] <= 10) and (tilstand[2]>0)):
+            tilstand[24] = tilstand[13] + 50
+        if ((handling[3] > 10) and (tilstand[2]>0)):
+            tilstand[24] = tilstand[13] + 50 - 30*(handling[3]/100)
+        tilstand[24] = tilstand[24] + (600-tilstand[24])* tilstand[11]/100
+    else:
+        tilstand[24] = 50
 
     # Luftbalance
 
@@ -606,12 +592,7 @@ while True:
     if (tilstand[22] > 1) or (tilstand[18] == 0):
         tilstand[22] = 1
         
-    # Vandbalance i kedel
-    print("tilstand[5] foer = ",tilstand[5])
-    tilstand[5] = tilstand[5] + (((handling[5]/100)*design[8]) - ((handling[6]/100)*design[8]) + tilstand[20])
-    print("tilstand[5] efter = ",tilstand[5])
-
-    # Maskinydelse
+   # Maskinydelse
 
     tilstand[8] = int(100*(tilstand[18]/0.29)*((tilstand[6]-tilstand[22])/10)*(abs(tilstand[0]-50)/100)*(handling[8]/100))
                                                                            
