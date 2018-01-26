@@ -12,7 +12,7 @@
 # angiver temperaturen.
 #
 #***************************************************************************
-# Joergen Friis 20.01.2018
+# Joergen Friis 26.01.2018
 #***************************************************************************
 
 import smbus
@@ -22,7 +22,7 @@ import sys
 bus = smbus.SMBus(1)
 
 def vis(temp):
-    #temp = int(1.50 * temp + 48)
+    temp = int(0.027 * temp + 9.86)
     Success = False
     caught_exception = None
     for _ in range (30):
