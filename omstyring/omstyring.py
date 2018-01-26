@@ -7,8 +7,8 @@
 # Programmet laeser en streng med 2 bytes fra Arduinoen:
 # Byte 0 indeholder 0, hvis stillingen af omstyringshaandtaget ikke  er aendret,
 # og 1, hvis haandtaget er blevet flyttet.
-# Byte 1 indeholder et tal mellem 0 og 255, der angiver omstyringshaandtagets stilling.
-# 0 er fuld kraft frem og 255 er fuld kraft bak,
+# Byte 1 indeholder et tal mellem 0 og 100, der angiver omstyringshaandtagets stilling.
+# 0 er fuld kraft frem og 100 er fuld kraft bak,
 #
 # Joergen Friis 26.01.2018
 #
@@ -37,7 +37,6 @@ def Read_omstyring():
     if Success:
         status = data[0]
         omstyring = data[1]
-        omstyring = int(omstyring*100/255)
         print('Omstyring read = ',omstyring)
     return omstyring
     

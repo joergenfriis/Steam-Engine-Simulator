@@ -12,7 +12,7 @@ over et skydepotentiometer.
 
 Viseren på omstyringen drives af en servomotor, der styres af pythonmodulet servo.py.
 
-Joergen Friis 15.11.2017
+Joergen Friis 26.01.2018
 */
 
 #include<Wire.h>
@@ -53,7 +53,8 @@ void loop()
   delay(10);
   
   total = total - readings[readIndex];    // subtract the last reading
-  stilling = map(analogRead(ANALOG_INPUT_PIN),190,800,0,255);   // aflaes og skaler aflaesningen af sensoren
+  stilling = map(analogRead(ANALOG_INPUT_PIN),190,800,0,100);   // aflaes og skaler aflaesningen af sensoren
+  if (stilling < 0) stilling = 0;
   readings[readIndex] = stilling;  // gem aflaesningen
   total = total + readings[readIndex];    // adder målingen til totalen
   readIndex = readIndex + 1;              // ryk til næste position i arrayet
