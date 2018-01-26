@@ -43,7 +43,7 @@
 # tilstand[3] = Aktuel brandvaerdi af kul i kJ/kg
 # tilstand[4] = Roegtemperatur i kedel
 # tilstand[5] = Vand i kedel i liter
-# tilstand[6] = Damptryk i bar (overtryk)
+# tilstand[6] = Damptryk i bar (bar abs)
 # tilstand[7] = luft i damprummet (0-100%)
 # tilstand[8] = Maskinydelse (0-100)
 # tilstand[9] = Maskintelegraf (0-6)
@@ -70,7 +70,7 @@
 # virkning[4] = Kedelvand i skueroer (0-100%)
 # virkning[5] = Film i kooeje (1/0: afspilning eller pause)
 # virkning[6] = Vacuum i kondensator (0-1 bar)
-# virkning[7] = Kedeltryk (0-10 bar)
+# virkning[7] = Kedeltryk (0-10 bar overtryk)
 # virkning[8] = Hastighed af transportbaand (0-design[12] m/s)
 # virkning[9] = Vand fra overtryksventil (0/1)
 # virkning[10] = Lys i brandkammer (0/1)
@@ -111,6 +111,7 @@ import ventiler
 import programvalg
 import IRremote
 import servoTryk
+import servoTemp
 import sikkerhedsventil
 import oliepumpe
 import sekundaerLuft
@@ -148,9 +149,9 @@ design[4] = 5
 design[5] = 0.1
 design[6] = 5
 design[7] = 10
-design[8] = 10
+design[8] = design[1]/200   # Er fastsat saa skueroeret kan foelge med.
 design[9] = 10
-design[10] = 0.66
+design[10] = 0.75  # Svarer til 140% af den damp der kan dannes pr sek.
 design[11] = 1.4
 design[12] = 0.7
 design[13] = 0.000278
@@ -183,13 +184,13 @@ if (handling[11] == 1):
 
 if ((handling[11] == 2) or (handling[11] == 4)):
     design[1] = 500
-    design[8] = 50
+    design[8] = design[1]/200
     design[13] = 0.0333
     design[14] = 0.1
     tilstand[13] = 95
 else:
     design[1] = 7690
-    design[8] = 10
+    design[8] = design[1]/200
     design[13] = 0.000278
     design[14] = 1
     tilstand[13] = 40
@@ -201,8 +202,8 @@ tilstand[1] = 0.5 * design[4]
 tilstand[2] = 0
 tilstand[3] = 0
 tilstand[4] = 0
-tilstand[5] = 0.5 * design[1]
-tilstand[6] = 0
+tilstand[5] = 0.6 * design[1]
+tilstand[6] = 1
 tilstand[7] = 100
 tilstand[8] = 0
 tilstand[9] = 3
@@ -232,7 +233,7 @@ virkning[3] = 0
 virkning[4] = int((tilstand[5]/design[1])*100)
 virkning[5] = 0
 virkning[6] = 1
-virkning[7] = 0
+virkning[7] = tilstand[6] - 1
 virkning[8] = 0
 virkning[9] = 0
 virkning[10] = 0
@@ -458,57 +459,43 @@ while True:
     # Energiproduktion
 
     if (handling[4]<0.5):
-        print("Energiproduktion valg 1")
         tilstand[2] = 0
-        #virkning[8] = 0
         tilstand[3] = design[2]*(100-tilstand[11])/100
         tilstand[10] = 0
         tilstand[4] = 40
 
     if ((handling[4] >= 0.5) and (handling[4] < 22.5) and (handling[3] <= 10)):
-        print("Energiproduktion valg 2")
         tilstand[2] = (handling[2]+handling[3])*27.3/20/3600
-        #virkning[8] = tilstand[2]*design[11]/handling[4]
         tilstand[3] = design[2]*((100-4*(10-handling[3]))/100)*(100-tilstand[11])/100
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
 
     if ((handling[4] >= 0.5) and (handling[4] < 22.5) and (handling[3] > 10)):
-        print("Energiproduktion valg 3")
         tilstand[2] = (handling[2]+10)*27.3/20/3600
-        #virkning[8] = tilstand[2]*design[11]/handling[4]
         tilstand[3] = design[2]*(100-tilstand[11])/100
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
 
     if ((handling[4] >= 22.5) and (handling[4] < 45) and (handling[3] <= 10)):
-        print("Energiproduktion valg 4")
         tilstand[2] = ((handling[2]*(100-(handling[4]-22.5)*100/22.5)/100)+handling[3])*27.3/20/3600
-        #virkning[8] = tilstand[2]*design[11]/handling[4]
         tilstand[3] = design[2]*((100-4*(10-handling[3]))/100)*(100-tilstand[11])/100
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
 
     if ((handling[4] >= 22.5) and (handling[4] < 45) and (handling[3] > 10)):
-        print("Energiproduktion valg 5")
         tilstand[2] = ((handling[2]*(100-(handling[4]-22.5)*100/22.5)/100)+10)*27.3/20/3600
-        #virkning[8] = tilstand[2]*design[11]/handling[4]
         tilstand[3] = design[2]*(100-tilstand[11])/100
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
 
     if ((handling[4] > 45) and (handling[3] <= 10)):
-        print("Energiproduktion valg 6")
         tilstand[2] = handling[3]*27.3/20/3600
-        #virkning[8] = tilstand[2]*design[11]/handling[4]
         tilstand[3] = design[2]*((100-4*(10-handling[3]))/100)*(100-tilstand[11])/100
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
 
     if((handling[4] > 45) and (handling[3] > 10)):
-        print("Energiproduktion valg 7")
         tilstand[2] = 10*27.3/20/3600
-        #virkning[8] = tilstand[2]*design[11]/handling[4]
         tilstand[3] = design[2]*(100-tilstand[11])/100
         tilstand[10] = tilstand[2]*tilstand[3]
         tilstand[4] = ((tilstand[3]/4.1868)/(0.24*(1+20)))+18
@@ -517,25 +504,25 @@ while True:
     # A: opslag i damptabellen ved den aktuelle temperatur
 
     for x in range(len(dampTabel)):
-    if dampTabel[x][1] > tilstand[13]:
-        break
+        if dampTabel[x][1] > tilstand[13]:
+            break
     enthalpiVandSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][3],tilstand[13],dampTabel[x][1],dampTabel[x][3])
     enthalpiDampSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][4],tilstand[13],dampTabel[x][1],dampTabel[x][4])
     volumenDampSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][2],tilstand[13],dampTabel[x][1],dampTabel[x][2])
 
     # B: vand ind og ud
     tilstand[5] = tilstand[5] + (handling[5]/100)*design[8] - (handling[6]/100)*design[8] + tilstand[20]
-    tilstand[25] = tilstand[25] + (handling[5]/100)*design[8])*dampTabel[0][3] - (handling[6]/100)*design[8]*enthalpiVandSpc + tilstand[20]*dampTabel[15][3]                                 
+    tilstand[25] = tilstand[25] + (handling[5]/100)*design[8]*dampTabel[0][3] - (handling[6]/100)*design[8]*enthalpiVandSpc + tilstand[20]*dampTabel[15][3]                                 
 
     # C: energi ind og ud
-    if (handling[4] > 0:
+    if (handling[4] > 0):
         tilstand[25] = tilstand[25] + tilstand[10]
     else:
         tilstand[25] = tilstand[25] - 31.2*(tilstand[13]-20)*70*4.184/3600
 
     # D: damp ud
-        if (tilstand[6] > 10):
-        tilstand[16] = 1
+        if (tilstand[6] > 11):
+            tilstand[16] = 1
 
     if ((handling[9]+handling[10]+tilstand[16]) == 0):
         tilstand[18] = 0
@@ -563,6 +550,7 @@ while True:
 
     tilstand[6] = damptabel.interpol(tilstandTabel[x-1][2],tilstandTabel[x-1][0],tilstand[25],tilstandTabel[x][2],tilstandTabel[x][0]) 
     tilstand[13] = damptabel.interpol(tilstandTabel[x-1][2],tilstandTabel[x-1][1],tilstand[25],tilstandTabel[x][2],tilstandTabel[x][1])
+    tilstand[17] = ((design[1]-tilstand[5])/1000)/volumenDampSpc
 
         
     # Roeggastemperatur i skorsten
@@ -598,7 +586,7 @@ while True:
                                                                            
     # Oliebalance
 
-    tilstand[1] = tilstand[1] + handling[1]-indpumpetFoer - design[3]*tilstand[8]
+    tilstand[1] = tilstand[1] + handling[1]-indpumpetFoer - design[3]*tilstand[8]/3600
     indpumpetFoer = handling[1]
 
 
@@ -622,7 +610,7 @@ while True:
     skueglasOlie.set(virkning[2])
     
     virkning[3] = tilstand[24]
-    # Er ikke programmeret endnu på Arduino og i Python. Afventer printplader.
+    servoTemp.vis(virkning[3])
                      
     virkning[4] = int(tilstand[5]/design[1]*100)
     if virkning[4] > 100:
@@ -630,7 +618,7 @@ while True:
     skueglasKedel.set(virkning[4])
 
     virkning[6] = tilstand[22]
-    virkning[7] = tilstand[6]
+    virkning[7] = tilstand[6] - 1  # Manometeret viser bar overtryk
     servoTryk.vis(virkning[6],virkning[7])
 
     if (tilstand[2] > 0) and (tid % 5 == 0):       # fordi baandet ikke kan koere langsommere end 0,1 m/s = speed 15
@@ -793,13 +781,13 @@ while True:
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0, maxtime=1000)
             servo.maskintelegraf_FF()
-            time.sleep(1)
+            time.sleep(5)
             channel3.play(maskinteleraf, loops=0, maxtime=1000)
             servo.maskintelegraf_FB()
-            time.sleep(1)
+            time.sleep(5)
             channel3.play(maskintelegraf, loops=0, maxtime=1000)
             servo.maskintelegraf_FS()
-            time.sleep(1)
+            time.sleep(5)
             
     if (realTid > 968) and (realTid <= 1033):
         if virkning[20] != 2:
@@ -926,7 +914,7 @@ while True:
     else:
         galHastighed = 0
 
-    if ((virkning[20] in [0,6]) and (virkning[1] <= 66) and (galHastiged == 0)):
+    if ((virkning[20] in [0,6]) and (virkning[1] <= 66) and (galHastighed == 0)):
         galHastighed = 2
     else:
         galHastighed = 0
@@ -1042,7 +1030,7 @@ while True:
     else:
         fejlBetjeningTid = 0
 
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 1):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 1):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1051,7 +1039,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0
 
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 2):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 2):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1060,7 +1048,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0
 
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 3):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 3):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1069,7 +1057,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0
             
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 4):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 4):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1078,7 +1066,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0    
 
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 5):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 5):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1087,7 +1075,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0    
         
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 6):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 6):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1096,7 +1084,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0     
         
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 7):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 7):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1105,7 +1093,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0   
 
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 8):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 8):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
@@ -1114,7 +1102,7 @@ while True:
         fejlBetjening = 0
         fejlBetjeningTid = 0   
                                      
-    if ((tid - fejlBetjeningTid) > 15) and ((tid - callTime) > 30) and (fejlBetjening == 9):
+    if ((tid - fejlBetjeningTid) > 30) and ((tid - callTime) > 30) and (fejlBetjening == 9):
         channel3.set_volume(1,0)
         channel3.play(flute, loops=0)
         time.sleep(3)
