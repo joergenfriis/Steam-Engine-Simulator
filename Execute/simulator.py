@@ -62,6 +62,8 @@
 # tilstand[22] = Tryk i kondensator
 # tilstand[23] = forbrugt oliemaengde i liter/time
 # tilstand[24] = Roegtemperatur i skorsten
+# tilstand[25] = Enthalpi i kedlen
+# tilstand[26] = Klar til sejlads (0/1)
 #
 # virkning[0] = Omstyringens stilling paa modellen (0-100)
 # virkning[1] = Modellens omdrejningshastighed (0-100%)
@@ -87,9 +89,10 @@
 # virkning[21] = Kommando i taleroer
 # virkning[22] = Lyd af maskintelegraf floejte
 # virkning[23] = Lyd af damp i roer
+# virkning[24] = Aktivering af roegmaskine (1/0)
 # 
 #
-# Joergen Friis 25.01.2018
+# Joergen Friis 27.01.2018
 #
 #############################################################################
 
@@ -128,14 +131,14 @@ time.sleep(10)
 design = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
 handling = [0,1,2,3,4,5,6,7,8,9,10,11]
 tilstand = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
-virkning = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
+virkning = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
 dampTabel = damptabel.damptabel
 tilstandTabel = damptabel.dampTilstand
 
 
-servoTryk.vis(0.5,5) #For at faa instrumenterne til at falde til ro
-                        # her kommer en tilsvarende linje til roegtemperatur
+servoTryk.vis(1,0) #For at faa instrumenterne til at falde til ro
+servoTemp.vis(5)
 
 powernet.RelayAlloff()
 
@@ -202,7 +205,7 @@ tilstand[1] = 0.5 * design[4]
 tilstand[2] = 0
 tilstand[3] = 0
 tilstand[4] = 0
-tilstand[5] = 0.6 * design[1]
+tilstand[5] = 0.7 * design[1]
 tilstand[6] = 1
 tilstand[7] = 100
 tilstand[8] = 0
@@ -223,6 +226,7 @@ tilstand[22] = 0
 tilstand[23] = 0
 tilstand[24] = 0
 tilstand[25] = 0
+tilstand[26] = 0
 
 # beregn virkningerne
 
@@ -250,6 +254,7 @@ virkning[20] = tilstand[9]
 virkning[21] = 0
 virkning[22] = 0
 virkning[23] = 0
+virkning[24] = 1
 
 # Beregn kedlens samlede enthalpi i starttilstanden vha damptabellen
 for x in range(len(dampTabel)):
@@ -410,11 +415,16 @@ galHastighed = 0
 galHastighedTid = 0
 fejlBetjening = 0
 fejlBetjeningTid = 0
+callTime = 0
 indpumpetFoer = 0
+smokeStart = 0
 startTid = time.time()
 
+time.sleep(1)
 powernet.Relay3on()   #Roegmaskine varmer op
+time.sleep(1)
 powernet.Relay10on()  #Simulator klar lys
+time.sleep(1)
 
 
 # Drift af simulatoren ######################################################
@@ -427,6 +437,12 @@ while True:
     # Kommer senere
     
     tid = tid + 1
+
+    if (tilstand[6] > 5) and (tilstand[26] == 0):
+        tilstand[26] = 1
+
+    if (tilstand[26] == 0):
+        startTid = time.time()
     realTid = int(time.time() - startTid)
 
     # REGISTRER HANDLINGER  ####################################################
@@ -511,7 +527,7 @@ while True:
     volumenDampSpc = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][2],tilstand[13],dampTabel[x][1],dampTabel[x][2])
 
     # B: vand ind og ud
-    tilstand[5] = tilstand[5] + (handling[5]/100)*design[8] - (handling[6]/100)*design[8] + tilstand[20]
+    tilstand[5] = tilstand[5] + (handling[5]/100)*design[8] - (handling[6]/100)*design[8] - (tilstand[18] + tilstand[19]) + tilstand[20]
     tilstand[25] = tilstand[25] + (handling[5]/100)*design[8]*dampTabel[0][3] - (handling[6]/100)*design[8]*enthalpiVandSpc + tilstand[20]*dampTabel[15][3]                                 
 
     # C: energi ind og ud
@@ -582,7 +598,7 @@ while True:
         
    # Maskinydelse
 
-    tilstand[8] = int(100*(tilstand[18]/0.29)*((tilstand[6]-tilstand[22])/10)*(abs(tilstand[0]-50)/100)*(handling[8]/100))
+    tilstand[8] = int(100*(tilstand[18]/0.29)*((tilstand[6]-tilstand[22])/9)*(abs(tilstand[0]-50)/50)*(handling[8]/100))
                                                                            
     # Oliebalance
 
@@ -619,11 +635,13 @@ while True:
 
     virkning[6] = tilstand[22]
     virkning[7] = tilstand[6] - 1  # Manometeret viser bar overtryk
+    if virkning[7] < 0:
+        virkning[7] = 0
     servoTryk.vis(virkning[6],virkning[7])
 
-    if (tilstand[2] > 0) and (tid % 5 == 0):       # fordi baandet ikke kan koere langsommere end 0,1 m/s = speed 15
+    if (tilstand[2] > 0) and (tid % 10 == 0):       # fordi baandet ikke kan koere langsommere end 0,1 m/s = speed 15
         virkning[8] = tilstand[2] * design[11]/handling[4]
-        speed = int(virkning[8] * 255 * 5 / design[12])
+        speed = int(virkning[8] * 255 * 10 / design[12])
         if speed < 15:
             speed = 15
         transport.TransportGo(speed)
@@ -665,6 +683,7 @@ while True:
     channel5.set_volume(virkning[14]/100,0)
     if not channel5.get_busy():
         channel5.play(vand,loops=-1)
+        print("Vandlyd afspilles")
         
     if ((tilstand[5] > design[1]) or (tilstand[1] > design[4])):
         virkning[15] = 100
@@ -679,6 +698,12 @@ while True:
         virkning[16] = 100
     else:
         virkning[16] = 0
+
+    virkning[23] = handling[10]
+    channel5.set_volume(virkning[23]/100,0)
+    if not channel5.get_busy():
+        channel5.play(damp, loops =-1)
+        print("Damplyd afspilles")
 
     channel7.set_volume(virkning[16]/100,0)
     if not channel7.get_busy():
@@ -705,65 +730,78 @@ while True:
 
     #virkning[19] anvendes kun i initialiseringen
 
-    if realTid <= 1:
+
+    if (realTid > 10) and (realTid <= 20):
         if virkning[21] != 101:
             virkning[21] = 101
             channel3.set_volume(1,0)
             channel3.play(flute, loops=0)
             time.sleep(5)
             channel3.set_volume(0,1)
-            channel3.play(skipper01, loops=0)
+            channel3.play(skipper01, loops=0)       # Fem minutter til afgang
             callTime = tid
 
 
     if (realTid > 290) and (realTid <305):
         if virkning[20] != 8:
             virkning[20] = 8
-            channel3.set_volume(1,0)
-            channel3.play(maskintelegraf, loops=0, maxtime=1000)
-            servo.maskintelegraf_FF()
-            time.sleep(1)
-            channel3.play(maskintelegraf, loops=0, maxtime=1000)
-            servo.maskintelegraf_FB()
-            time.sleep(1)
-            channel3.play(maskintelegraf, loops=0, maxtime=1000)
             servo.maskintelegraf_FS()
-            time.sleep(1)
+            channel3.set_volume(1,0)
+            channel3.play(maskintelegraf, loops=2, maxtime=1000)
+            
+            
             
     if (realTid > 305) and (realTid <= 315):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 315) and (realTid <= 325):
         if virkning[20] != 4:
             virkning[20] = 4
+            servo.maskintelegraf_LB()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LB()
+            
 
     if (realTid > 325) and (realTid <= 345):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 345) and (realTid <= 390):
         if virkning[20] != 1:
             virkning[20] = 1
+            servo.maskintelegraf_HF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_HF()
+            
 
     if (realTid > 390) and (realTid < 965):
         if virkning[20] != 0:
             virkning[20] = 0
+            servo.maskintelegraf_FF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_FF()
+
+    if (realTid > 800) and (realTid <= 900):
+        if virkning[24] != 0:
+            virkning[24] = 0
+            powernet.Relay9on()
+            smokeStart = realTid
+
+    if smokeStart > 0:
+        if smokeStart > 60:
+            powernet.Relay9off()
+            powernet.Relay7on()
+        if smokeStart > 300:
+            powernet.Relay7off()
 
     if (realTid > 900) and (realTid < 950):
         if virkning[21] != 102:
@@ -772,106 +810,105 @@ while True:
             channel3.play(flute, loops=0)
             time.sleep(5)
             channel3.set_volume(0,1)
-            channel3.play(skipper02, loops=0)
+            channel3.play(skipper02, loops=0)           # 200 meter til havnemolen
             callTime = tid
 
-    if (realTid > 950) and (realTid < 965):
-        if virkning[20] != 8:
-            virkning[20] = 8
-            channel3.set_volume(1,0)
-            channel3.play(maskintelegraf, loops=0, maxtime=1000)
-            servo.maskintelegraf_FF()
-            time.sleep(5)
-            channel3.play(maskinteleraf, loops=0, maxtime=1000)
-            servo.maskintelegraf_FB()
-            time.sleep(5)
-            channel3.play(maskintelegraf, loops=0, maxtime=1000)
-            servo.maskintelegraf_FS()
-            time.sleep(5)
             
     if (realTid > 968) and (realTid <= 1033):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 1033) and (realTid <= 1055):
         if virkning[20] != 4:
             virkning[20] = 4
+            servo.maskintelegraf_LB()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LB()
+            
 
     if (realTid > 1055) and (realTid <= 1092):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 1092) and (realTid <= 1118):
         if virkning[20] != 4:
             virkning[20] = 4
+            servo.maskintelegraf_LB()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LB()
+            
 
     if (realTid > 1118) and (realTid <= 1231):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 1231) and (realTid <= 1259):
         if virkning[20] != 4:
             virkning[20] = 4
+            servo.maskintelegraf_LB()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LB()
+            
 
     if (realTid > 1259) and (realTid <= 1290):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 1290) and (realTid <= 1317):
         if virkning[20] != 4:
             virkning[20] = 4
+            servo.maskintelegraf_LB()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LB()
+            
 
     if (realTid > 1317) and (realTid <= 1387):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if (realTid > 1387) and (realTid <= 1403):
         if virkning[20] != 4:
             virkning[20] = 4
+            servo.maskintelegraf_LB()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LB()
+            
 
     if (realTid > 1403) and (realTid <= 1630):
         if virkning[20] != 2:
             virkning[20] = 2
+            servo.maskintelegraf_LF()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_LF()
+            
 
     if realTid > 1603:
         if virkning[20] != 3:
             virkning[20] = 3
+            servo.maskintelegraf_FS()
             channel3.set_volume(1,0)
             channel3.play(maskintelegraf, loops=0)
-            servo.maskintelegraf_FS()
+            
 
     if realTid > 1630:
         if virkning[21] != 103:
@@ -885,7 +922,7 @@ while True:
 
     # Haandtering af haendelsesafhaengige ordrer: Gal retning
 
-    if ((virkning[20] in [1,2,3]) and (virkning[0] < 50)) or ((virkning[20] in [5,6,7]) and (virkning[0] > 50)):
+    if ((virkning[20] in [0,1,2]) and (virkning[0] < 50) and (virkning[1] > 0)) or ((virkning[20] in [4,5,6]) and (virkning[0] > 50) and (virkning[1] > 0)):
         galRetning = 1
     else:
         galRetning = 0
@@ -1122,12 +1159,12 @@ while True:
 
     print("******************************************************")
     
-    for i in range(0,25):
+    for i in range(0,27):
         print("Tilstand[",i,"] = ",tilstand[i])
 
     print("******************************************************")
 
-    for i in range(0,24):
+    for i in range(0,25):
         print("Virkning[",i,"] = ",virkning[i])
 
     print("******************************************************")
