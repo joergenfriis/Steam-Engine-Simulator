@@ -1,4 +1,4 @@
-# simulatorNY.py  benyttes til at teste programvalgsfunktioner
+# simulator.py
 #
 # Hovedprogram til drift af dampmaskinesimulatoren paa Det Gamle Vaerft.
 #
