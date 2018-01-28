@@ -1,4 +1,4 @@
-# simulator.py
+# simulatorOLD.py
 #
 # Hovedprogram til drift af dampmaskinesimulatoren paa Det Gamle Vaerft.
 #
