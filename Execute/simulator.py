@@ -92,7 +92,7 @@
 # virkning[24] = Aktivering af roegmaskine (1/0)
 # 
 #
-# Joergen Friis 27.01.2018
+# Joergen Friis 28.01.2018
 #
 #############################################################################
 
@@ -120,321 +120,340 @@ import oliepumpe
 import sekundaerLuft
 import damptabel
 
-print("Starter simulatorprogram")
+# Programvalg #########################################################
 
-# Initiering af simulatoren ################################################
+while True:
+	handling[11] = programvalg.read()
+	
+	while handlng[11] == 0:
+		print("Lukker alt ned undtagen programvalg")
+		handling[11] = programvalg.read()
+		initieret = False
+		pygame.mixer.stop()
+		powernet.RelayAllOff()
+		model.modelStop()
+		servoTryk.vis(1,0)
+		servoTemp.vis(50)
+		
+	while handling[11] == 1:
+		print("Starter demoprogram")
+		handling[11] = programvalg.read()
+		powernet.Relay10on()
+		demo.demo()
+		
+	while handling[11] in [2,3,4]:
+		print("Starter simulatorprogram")
+		handling[11] = programvalg.read()
+		if initieret = False:
+			initiering()
+		simulator()
+		
+	
 
-print("Initiering")
 
-time.sleep(10)
+def initiering():
 
-design = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
-handling = [0,1,2,3,4,5,6,7,8,9,10,11]
-tilstand = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
-virkning = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
+	# Initiering af simulatoren ################################################
 
-dampTabel = damptabel.damptabel
-tilstandTabel = damptabel.dampTilstand
+	print("Initiering")
+	initieret = True
 
+	design = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16]
+	handling = [0,1,2,3,4,5,6,7,8,9,10,11]
+	tilstand = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26]
+	virkning = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24]
 
-servoTryk.vis(1,0) #For at faa instrumenterne til at falde til ro
-servoTemp.vis(5)
+	dampTabel = damptabel.damptabel
+	tilstandTabel = damptabel.dampTilstand
 
-powernet.RelayAlloff()
+	servoTryk.vis(1,0) #For at faa instrumenterne til at falde til ro
+	servoTemp.vis(5)
 
-# Saet designparametre
+	powernet.RelayAlloff()
 
-design[0] = 1       # Skal overvejes naar alt andet virker
-design[1] = 8900
-design[2] = 32000
-design[3] = 2
-design[4] = 5
-design[5] = 0.1
-design[6] = 5
-design[7] = 10
-design[8] = design[1]/200   # Er fastsat saa skueroeret kan foelge med.
-design[9] = 10
-design[10] = 0.75  # Svarer til 140% af den damp der kan dannes pr sek.
-design[11] = 1.4
-design[12] = 0.7
-design[13] = 0.000278
-design[14] = 1
-design[15] = 95
+	# Saet designparametre
 
-# Aflaes handlinger
+	design[0] = 1       # Skal overvejes naar alt andet virker
+	design[1] = 8900
+	design[2] = 32000
+	design[3] = 2
+	design[4] = 5
+	design[5] = 0.1
+	design[6] = 5
+	design[7] = 10
+	design[8] = design[1]/200   # Er fastsat saa skueroeret kan foelge med.
+	design[9] = 10
+	design[10] = 0.75  # Svarer til 140% af den damp der kan dannes pr sek.
+	design[11] = 1.4
+	design[12] = 0.7
+	design[13] = 0.000278
+	design[14] = 1
+	design[15] = 95
 
-handling[0] = omstyring.Read_omstyring()
-handling[1] = oliepumpe.Read_flowmaaler() * design[5]
-handling[2] = primaerluft.Read_primaerluft()
-primaerluftKorrektion = handling[2]                 # Til brug for 0-stilling af enkoder
-handling[3] = sekundaerLuft.Read_sekundaerluft()
-handling[4] = vejecelle.Read_vejecelle() / 1000
-handling[5] = ventiler.readKedelvandInd()
-handling[6] = ventiler.readKedelvandUd()
-handling[7] = ventiler.readKondensatorvandInd()
-handling[8] = ventiler.readKondensatorvandUd()
-handling[9] = ventiler.readDampInd()
-handling[10] = ventiler.readDampUd()
-handling[11] = programvalg.read()
+	# Aflaes handlinger
 
-# aflaes programvaelger og start demoprogram hvis det er valgt
+	handling[0] = omstyring.Read_omstyring()
+	handling[1] = oliepumpe.Read_flowmaaler() * design[5]
+	handling[2] = primaerluft.Read_primaerluft()
+	primaerluftKorrektion = handling[2]                 # Til brug for 0-stilling af enkoder
+	handling[3] = sekundaerLuft.Read_sekundaerluft()
+	handling[4] = vejecelle.Read_vejecelle() / 1000
+	handling[5] = ventiler.readKedelvandInd()
+	handling[6] = ventiler.readKedelvandUd()
+	handling[7] = ventiler.readKondensatorvandInd()
+	handling[8] = ventiler.readKondensatorvandUd()
+	handling[9] = ventiler.readDampInd()
+	handling[10] = ventiler.readDampUd()
+	handling[11] = programvalg.read()
 
-if (handling[11] == 1):
-    while true:
-        demo.demo()
+	# aflaes programvaelger og juster designparametre tilsvarende
 
-# aflaes programvaelger og juster designparametre tilsvarende
+	if ((handling[11] == 2) or (handling[11] == 4)):
+		design[1] = 500
+		design[8] = design[1]/200
+		design[13] = 0.0333
+		design[14] = 0.1
+		tilstand[13] = 95
+	else:
+		design[1] = 7690
+		design[8] = design[1]/200
+		design[13] = 0.000278
+		design[14] = 1
+		tilstand[13] = 40
 
-if ((handling[11] == 2) or (handling[11] == 4)):
-    design[1] = 500
-    design[8] = design[1]/200
-    design[13] = 0.0333
-    design[14] = 0.1
-    tilstand[13] = 95
-else:
-    design[1] = 7690
-    design[8] = design[1]/200
-    design[13] = 0.000278
-    design[14] = 1
-    tilstand[13] = 40
+	# beregn tilstanden
 
-# beregn tilstanden
+	tilstand[0] = 50
+	tilstand[1] = 0.5 * design[4]
+	tilstand[2] = 0
+	tilstand[3] = 0
+	tilstand[4] = 0
+	tilstand[5] = 0.7 * design[1]
+	tilstand[6] = 1
+	tilstand[7] = 100
+	tilstand[8] = 0
+	tilstand[9] = 3
+	tilstand[10] = 0
+	tilstand[11] = 0
+	tilstand[12] = 0
+	tilstand[13] = design[15]
+	tilstand[14] = 0
+	tilstand[15] = 0
+	tilstand[16] = 0
+	tilstand[17] = 0
+	tilstand[18] = 0
+	tilstand[19] = 0
+	tilstand[20] = 0
+	tilstand[21] = 0
+	tilstand[22] = 0
+	tilstand[23] = 0
+	tilstand[24] = 0
+	tilstand[25] = 0
+	tilstand[26] = 0
 
-tilstand[0] = 50
-tilstand[1] = 0.5 * design[4]
-tilstand[2] = 0
-tilstand[3] = 0
-tilstand[4] = 0
-tilstand[5] = 0.7 * design[1]
-tilstand[6] = 1
-tilstand[7] = 100
-tilstand[8] = 0
-tilstand[9] = 3
-tilstand[10] = 0
-tilstand[11] = 0
-tilstand[12] = 0
-tilstand[13] = design[15]
-tilstand[14] = 0
-tilstand[15] = 0
-tilstand[16] = 0
-tilstand[17] = 0
-tilstand[18] = 0
-tilstand[19] = 0
-tilstand[20] = 0
-tilstand[21] = 0
-tilstand[22] = 0
-tilstand[23] = 0
-tilstand[24] = 0
-tilstand[25] = 0
-tilstand[26] = 0
+	# beregn virkningerne
 
-# beregn virkningerne
+	virkning[0] = 50
+	virkning[1] = 0
+	virkning[2] = int((tilstand[1]/design[4])*100)
+	virkning[3] = 0
+	virkning[4] = int((tilstand[5]/design[1])*100)
+	virkning[5] = 0
+	virkning[6] = 1
+	virkning[7] = tilstand[6] - 1
+	virkning[8] = 0
+	virkning[9] = 0
+	virkning[10] = 0
+	virkning[11] = 0
+	virkning[12] = 30
+	virkning[13] = 0
+	virkning[14] = 0
+	virkning[15] = 0
+	virkning[16] = 0
+	virkning[17] = 0
+	virkning[18] = 0
+	virkning[19] = 0
+	virkning[20] = tilstand[9]
+	virkning[21] = 0
+	virkning[22] = 0
+	virkning[23] = 0
+	virkning[24] = 1
 
-virkning[0] = 50
-virkning[1] = 0
-virkning[2] = int((tilstand[1]/design[4])*100)
-virkning[3] = 0
-virkning[4] = int((tilstand[5]/design[1])*100)
-virkning[5] = 0
-virkning[6] = 1
-virkning[7] = tilstand[6] - 1
-virkning[8] = 0
-virkning[9] = 0
-virkning[10] = 0
-virkning[11] = 0
-virkning[12] = 30
-virkning[13] = 0
-virkning[14] = 0
-virkning[15] = 0
-virkning[16] = 0
-virkning[17] = 0
-virkning[18] = 0
-virkning[19] = 0
-virkning[20] = tilstand[9]
-virkning[21] = 0
-virkning[22] = 0
-virkning[23] = 0
-virkning[24] = 1
+	# Beregn kedlens samlede enthalpi i starttilstanden vha damptabellen
+	for x in range(len(dampTabel)):
+		if dampTabel[x][1] > tilstand[13]:
+			break
+	enthalpiVand = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][3],tilstand[13],dampTabel[x][1],dampTabel[x][3])
+	enthalpiDamp = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][4],tilstand[13],dampTabel[x][1],dampTabel[x][4])
+	volumenDamp = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][2],tilstand[13],dampTabel[x][1],dampTabel[x][2])
+	tilstand[17] = (((design[1]-tilstand[5])/1000)/volumenDamp)         # kg damp i kedlen
+	tilstand[25] = tilstand[5]*enthalpiVand + tilstand[17]*enthalpiDamp # enthalpi i kedlen
 
-# Beregn kedlens samlede enthalpi i starttilstanden vha damptabellen
-for x in range(len(dampTabel)):
-    if dampTabel[x][1] > tilstand[13]:
-        break
-enthalpiVand = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][3],tilstand[13],dampTabel[x][1],dampTabel[x][3])
-enthalpiDamp = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][4],tilstand[13],dampTabel[x][1],dampTabel[x][4])
-volumenDamp = damptabel.interpol(dampTabel[x-1][1],dampTabel[x-1][2],tilstand[13],dampTabel[x][1],dampTabel[x][2])
-tilstand[17] = (((design[1]-tilstand[5])/1000)/volumenDamp)         # kg damp i kedlen
-tilstand[25] = tilstand[5]*enthalpiVand + tilstand[17]*enthalpiDamp # enthalpi i kedlen
+	# Toem transportbaandet for kul
+	transport.TransportGo(150)  
+	time.sleep(5)
+	transport.TransportStop()
 
-# Toem transportbaandet for kul
-transport.TransportGo(150)  
-time.sleep(5)
-transport.TransportStop()
+	# Nulstil vejecellen
+	vejecelle.Reset_vejecelle()
 
-# Nulstil vejecellen
-vejecelle.Reset_vejecelle()
+	# Nulstil oliepumpen
+	oliepumpe.Reset_flowmaaler()
 
-# Nulstil oliepumpen
-oliepumpe.Reset_flowmaaler()
+	# Taend fjernsynet i kooejet
+	powernet.Relay6on()
+	time.sleep(30)
+	IRremote.TVonOff()
+	time.sleep(10)
+	IRremote.TVrightArrow()
+	time.sleep(1)
+	IRremote.TVrightArrow()
+	time.sleep(1)
+	IRremote.TVok()
+	time.sleep(1)
+	IRremote.TVok()
+	time.sleep(1)
+	IRremote.TVrightArrow()
+	time.sleep(1)
+	IRremote.TVrightArrow()
+	time.sleep(1)
+	IRremote.TVrightArrow()
+	time.sleep(1)
+	IRremote.TVok()
+	time.sleep(1)
+	IRremote.TVpause()
+	pause=1                             # Naar pause=1 er billedet pauset
+	time.sleep(1)
 
-# Taend fjernsynet i kooejet
-powernet.Relay6on()
-time.sleep(30)
-IRremote.TVonOff()
-time.sleep(10)
-IRremote.TVrightArrow()
-time.sleep(1)
-IRremote.TVrightArrow()
-time.sleep(1)
-IRremote.TVok()
-time.sleep(1)
-IRremote.TVok()
-time.sleep(1)
-IRremote.TVrightArrow()
-time.sleep(1)
-IRremote.TVrightArrow()
-time.sleep(1)
-IRremote.TVrightArrow()
-time.sleep(1)
-IRremote.TVok()
-time.sleep(1)
-IRremote.TVpause()
-pause=1                             # Naar pause=1 er billedet pauset
-time.sleep(1)
+	# Start lydanlaegene
 
-# Start lydanlaegene
+	powernet.Relay5on()
+	time.sleep(1)
+	pygame.mixer.init(channels=2)       # Mixeren saettes til stereo
+	pygame.mixer.set_num_channels(11)
+	channel1 = pygame.mixer.Channel(0) # Baggrundslyd, der spiller hele tiden
+	channel2 = pygame.mixer.Channel(1) # Lyd af hovedmaskinen der koerer
+	channel3 = pygame.mixer.Channel(2) # Maskintelegraf, beskedfloejte og ordrer fra broen
+	channel4 = pygame.mixer.Channel(3) # Multifunktionspumpe
+	channel5 = pygame.mixer.Channel(4) # Lyd af vand i roer
+	channel6 = pygame.mixer.Channel(5) # Lyd fra damphaner
+	channel7 = pygame.mixer.Channel(6) # Lyd af sikkerhedsventil
+	channel8 = pygame.mixer.Channel(7) # Mislyde fra maskinen
+	channel9 = pygame.mixer.Channel(8) # Maskinhaveri
+	channel10 = pygame.mixer.Channel(9) # Dampfloejte
+	channel11 = pygame.mixer.Channel(10) # Vandpjask
 
-powernet.Relay5on()
-time.sleep(1)
-pygame.mixer.init(channels=2)       # Mixeren saettes til stereo
-pygame.mixer.set_num_channels(11)
-channel1 = pygame.mixer.Channel(0) # Baggrundslyd, der spiller hele tiden
-channel2 = pygame.mixer.Channel(1) # Lyd af hovedmaskinen der koerer
-channel3 = pygame.mixer.Channel(2) # Maskintelegraf, beskedfloejte og ordrer fra broen
-channel4 = pygame.mixer.Channel(3) # Multifunktionspumpe
-channel5 = pygame.mixer.Channel(4) # Lyd af vand i roer
-channel6 = pygame.mixer.Channel(5) # Lyd fra damphaner
-channel7 = pygame.mixer.Channel(6) # Lyd af sikkerhedsventil
-channel8 = pygame.mixer.Channel(7) # Mislyde fra maskinen
-channel9 = pygame.mixer.Channel(8) # Maskinhaveri
-channel10 = pygame.mixer.Channel(9) # Dampfloejte
-channel11 = pygame.mixer.Channel(10) # Vandpjask
+	baggrund = pygame.mixer.Sound("Sound/maskinrumStart.ogg")
+	assens = pygame.mixer.Sound("Sound/anloebAssens.ogg")
+	pumpe = pygame.mixer.Sound("Sound/multiPumpe.ogg")
+	dampflute = pygame.mixer.Sound("Sound/dampfloejte.ogg")
+	damp = pygame.mixer.Sound("Sound/dampUd.ogg")
+	luft = pygame.mixer.Sound("Sound/luftUd.ogg")
+	langsom = pygame.mixer.Sound("Sound/langsom.ogg")
+	halvKraft = pygame.mixer.Sound("Sound/halvKraft.ogg")
+	fuldKraft = pygame.mixer.Sound("Sound/fuldKraft.ogg")
+	vand = pygame.mixer.Sound("Sound/vandIroer.ogg")
+	vandpjask = pygame.mixer.Sound("Sound/vandPjask.ogg")
+	overtryksventil = pygame.mixer.Sound("Sound/overtryksventil.ogg")
+	maskinpiv = pygame.mixer.Sound("Sound/maskinKnirk.ogg")
+	maskinhaveri = pygame.mixer.Sound("Sound/maskinSammenbrud.ogg")
+	maskintelegraf = pygame.mixer.Sound("Sound/maskintelegraf.ogg")
+	flute = pygame.mixer.Sound("Sound/floejteTelegraf.ogg")
+	skipper01 = pygame.mixer.Sound("Sound/skipper01.ogg")
+	skipper02 = pygame.mixer.Sound("Sound/skipper02.ogg")
+	skipper03 = pygame.mixer.Sound("Sound/skipper03.ogg")
+	skipper04 = pygame.mixer.Sound("Sound/skipper04.ogg")
+	skipper05 = pygame.mixer.Sound("Sound/skipper05.ogg")
+	skipper06 = pygame.mixer.Sound("Sound/skipper06.ogg")
+	skipper07 = pygame.mixer.Sound("Sound/skipper07.ogg")
+	skipper08 = pygame.mixer.Sound("Sound/skipper08.ogg")
+	skipper09 = pygame.mixer.Sound("Sound/skipper09.ogg")
+	skipper10 = pygame.mixer.Sound("Sound/skipper10.ogg")
+	skipper11 = pygame.mixer.Sound("Sound/skipper11.ogg")
+	skipper12 = pygame.mixer.Sound("Sound/skipper12.ogg")
+	skipper13 = pygame.mixer.Sound("Sound/skipper13.ogg")
+	skipper14 = pygame.mixer.Sound("Sound/skipper14.ogg")
+	skipper15 = pygame.mixer.Sound("Sound/skipper15.ogg")
+	skipper16 = pygame.mixer.Sound("Sound/skipper16.ogg")
+	chief01 = pygame.mixer.Sound("Sound/chief01.ogg")
+	chief02 = pygame.mixer.Sound("Sound/chief02.ogg")
+	chief03 = pygame.mixer.Sound("Sound/chief03.ogg")
+	chief04 = pygame.mixer.Sound("Sound/chief04.ogg")
+	chief05 = pygame.mixer.Sound("Sound/chief05.ogg")
+	chief06 = pygame.mixer.Sound("Sound/chief06.ogg")
+	chief07 = pygame.mixer.Sound("Sound/chief07.ogg")
+	chief08 = pygame.mixer.Sound("Sound/chief08.ogg")
+	chief09 = pygame.mixer.Sound("Sound/chief09.ogg")
 
-baggrund = pygame.mixer.Sound("Sound/maskinrumStart.ogg")
-assens = pygame.mixer.Sound("Sound/anloebAssens.ogg")
-pumpe = pygame.mixer.Sound("Sound/multiPumpe.ogg")
-dampflute = pygame.mixer.Sound("Sound/dampfloejte.ogg")
-damp = pygame.mixer.Sound("Sound/dampUd.ogg")
-luft = pygame.mixer.Sound("Sound/luftUd.ogg")
-langsom = pygame.mixer.Sound("Sound/langsom.ogg")
-halvKraft = pygame.mixer.Sound("Sound/halvKraft.ogg")
-fuldKraft = pygame.mixer.Sound("Sound/fuldKraft.ogg")
-vand = pygame.mixer.Sound("Sound/vandIroer.ogg")
-vandpjask = pygame.mixer.Sound("Sound/vandPjask.ogg")
-overtryksventil = pygame.mixer.Sound("Sound/overtryksventil.ogg")
-maskinpiv = pygame.mixer.Sound("Sound/maskinKnirk.ogg")
-maskinhaveri = pygame.mixer.Sound("Sound/maskinSammenbrud.ogg")
-maskintelegraf = pygame.mixer.Sound("Sound/maskintelegraf.ogg")
-flute = pygame.mixer.Sound("Sound/floejteTelegraf.ogg")
-skipper01 = pygame.mixer.Sound("Sound/skipper01.ogg")
-skipper02 = pygame.mixer.Sound("Sound/skipper02.ogg")
-skipper03 = pygame.mixer.Sound("Sound/skipper03.ogg")
-skipper04 = pygame.mixer.Sound("Sound/skipper04.ogg")
-skipper05 = pygame.mixer.Sound("Sound/skipper05.ogg")
-skipper06 = pygame.mixer.Sound("Sound/skipper06.ogg")
-skipper07 = pygame.mixer.Sound("Sound/skipper07.ogg")
-skipper08 = pygame.mixer.Sound("Sound/skipper08.ogg")
-skipper09 = pygame.mixer.Sound("Sound/skipper09.ogg")
-skipper10 = pygame.mixer.Sound("Sound/skipper10.ogg")
-skipper11 = pygame.mixer.Sound("Sound/skipper11.ogg")
-skipper12 = pygame.mixer.Sound("Sound/skipper12.ogg")
-skipper13 = pygame.mixer.Sound("Sound/skipper13.ogg")
-skipper14 = pygame.mixer.Sound("Sound/skipper14.ogg")
-skipper15 = pygame.mixer.Sound("Sound/skipper15.ogg")
-skipper16 = pygame.mixer.Sound("Sound/skipper16.ogg")
-chief01 = pygame.mixer.Sound("Sound/chief01.ogg")
-chief02 = pygame.mixer.Sound("Sound/chief02.ogg")
-chief03 = pygame.mixer.Sound("Sound/chief03.ogg")
-chief04 = pygame.mixer.Sound("Sound/chief04.ogg")
-chief05 = pygame.mixer.Sound("Sound/chief05.ogg")
-chief06 = pygame.mixer.Sound("Sound/chief06.ogg")
-chief07 = pygame.mixer.Sound("Sound/chief07.ogg")
-chief08 = pygame.mixer.Sound("Sound/chief08.ogg")
-chief09 = pygame.mixer.Sound("Sound/chief09.ogg")
+	if (handling[11] != 0):
+		channel1.set_volume(virkning[12]/100,0)        # spiller kun i venstre kanal = maskinrum
+		channel1.play(baggrund, loops = -1)     # spiller uendeligt
 
-if (handling[11] != 0):
-    channel1.set_volume(virkning[12]/100,0)        # spiller kun i venstre kanal = maskinrum
-    channel1.play(baggrund, loops = -1)     # spiller uendeligt
+	# Udfoer alle virkninger
+	model.ModelRun(virkning[1],virkning[0])
+	time.sleep(1)
+	skueglasOlie.set(virkning[2])
+	time.sleep(1)
+	servo.smokeTemp(virkning[3])
+	time.sleep(1)
+	skueglasKedel.set(virkning[4])
+	time.sleep(1)
+	servoTryk.vis(virkning[6],virkning[7])
+	time.sleep(1)
+	transport.TransportGo(virkning[8])
+	if (virkning[9] == 1):
+		sikkerhedsventil.sikkerhedsventilOn()
+		time.sleep(1)
+		sikkerhedsventil.sikkerhedsventilOff()
+	else:
+		sikkerhedsventil.sikkerhedsventilOff()
+	if (virkning[10] == 1):
+		powernet.Relay4on()
+	if (virkning[11] == 1):
+		powernet.Relay4on()
 
-# Udfoer alle virkninger
-model.ModelRun(virkning[1],virkning[0])
-time.sleep(1)
-skueglasOlie.set(virkning[2])
-time.sleep(1)
-servo.smokeTemp(virkning[3])
-time.sleep(1)
-skueglasKedel.set(virkning[4])
-time.sleep(1)
-servoTryk.vis(virkning[6],virkning[7])
-time.sleep(1)
-transport.TransportGo(virkning[8])
-if (virkning[9] == 1):
-    sikkerhedsventil.sikkerhedsventilOn()
-    time.sleep(1)
-    sikkerhedsventil.sikkerhedsventilOff()
-else:
-    sikkerhedsventil.sikkerhedsventilOff()
-if (virkning[10] == 1):
-    powernet.Relay4on()
-if (virkning[11] == 1):
-    powernet.Relay4on()
+	if (virkning[19] == 1):
+		powernet.Relay10on()
+	if (virkning[20] == 0):
+		servo.maskintelegraf_FF()
+	if (virkning[20] == 1):
+		servo.maskintelegraf_HF()
+	if (virkning[20] == 2):
+		servo.maskintelegraf_LF()
+	if (virkning[20] == 3):
+		servo.maskintelegraf_FS()
+	if (virkning[20] == 4):
+		servo.maskintelegraf_LB()
+	if (virkning[20] == 5):
+		servo.maskintelegraf_HB()
+	if (virkning[20] == 6):
+		servo.maskintelegraf_FB()
 
-if (virkning[19] == 1):
-    powernet.Relay10on()
-if (virkning[20] == 0):
-    servo.maskintelegraf_FF()
-if (virkning[20] == 1):
-    servo.maskintelegraf_HF()
-if (virkning[20] == 2):
-    servo.maskintelegraf_LF()
-if (virkning[20] == 3):
-    servo.maskintelegraf_FS()
-if (virkning[20] == 4):
-    servo.maskintelegraf_LB()
-if (virkning[20] == 5):
-    servo.maskintelegraf_HB()
-if (virkning[20] == 6):
-    servo.maskintelegraf_FB()
+	# Initiering faerdig
+	virkning[19] = 1
+	tid = 0
+	galRetning = 0
+	galRetningTid = 0
+	galHastighed = 0
+	galHastighedTid = 0
+	fejlBetjening = 0
+	fejlBetjeningTid = 0
+	callTime = 0
+	indpumpetFoer = 0
+	smokeStart = 0
+	startTid = time.time()
 
-# Initiering faerdig
-virkning[19] = 1
-tid = 0
-galRetning = 0
-galRetningTid = 0
-galHastighed = 0
-galHastighedTid = 0
-fejlBetjening = 0
-fejlBetjeningTid = 0
-callTime = 0
-indpumpetFoer = 0
-smokeStart = 0
-startTid = time.time()
-
-time.sleep(1)
-powernet.Relay3on()   #Roegmaskine varmer op
-time.sleep(1)
-powernet.Relay10on()  #Simulator klar lys
-time.sleep(1)
+	time.sleep(1)
+	powernet.Relay3on()   #Roegmaskine varmer op
+	time.sleep(1)
+	powernet.Relay10on()  #Simulator klar lys
+	time.sleep(1)
 
 
 # Drift af simulatoren ######################################################
 
-while True:
+def simulator():
     time.sleep(design[0])
-
-    # Valgtrae for programvaelger
-
-    # Kommer senere
     
     tid = tid + 1
 
