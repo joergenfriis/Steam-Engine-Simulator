@@ -30,13 +30,13 @@ def set(niveau):
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas kedel ",niveau," %")
+        print("Set skueglas kedel failed after 30 retries")
+    #if Success:
+        #print("Skueglas kedel ",niveau," %")
     return -1
 
 
@@ -51,13 +51,13 @@ def plus1():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas kedel plus 1 %")
+        print("Skueglas kedel plus 1 failed after 30 retries")
+    #if Success:
+        #print("Skueglas kedel plus 1 %")
     return -1
 
 def minus1():
@@ -71,13 +71,13 @@ def minus1():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas kedel minus 1 %")
+        print("Skueglas kedel minus 1 failed after 30 retries")
+    #if Success:
+        #print("Skueglas kedel minus 1 %")
     return -1
 
 def reset():
@@ -91,11 +91,11 @@ def reset():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas kedel resat")
+        print("Skueglas kedel reset failed after 30 retries")
+    #if Success:
+        #print("Skueglas kedel resat")
     return -1
