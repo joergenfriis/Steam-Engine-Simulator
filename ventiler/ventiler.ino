@@ -63,7 +63,7 @@ int averageF = 0;
 
 int Amin = 397;
 int Amax = 842;
-int Bmin = 447;
+int Bmin = 440;
 int Bmax = 825;
 int Cmin = 309;  //eksperimentelt bestemt
 int Cmax = 828;
@@ -121,6 +121,7 @@ void loop()
   //Serial.print("averageA before mapping: ");
   //Serial.println(averageA);
   averageA = map(averageA, Amin, Amax, 0, 100);
+  if (averageA < 0) averageA = 0;
   //Serial.print("averageA after mapping: ");
   //Serial.println(averageA);
   registerMap[0] = averageA;
@@ -137,6 +138,7 @@ void loop()
   //Serial.print("averageB before mapping: ");
   //Serial.println(averageB);
   averageB = map(averageB, Bmin, Bmax, 0, 100);
+  if (averageB < 0) averageB = 0;
   //Serial.print("averageB after mapping: ");
   //Serial.println(averageB);
   registerMap[1] = averageB;
@@ -153,6 +155,7 @@ void loop()
   //Serial.print("averageC before mapping: ");
   //Serial.println(averageC);
   averageC = map(averageC, Cmin, Cmax, 0, 100);
+  if (averageC < 0) averageC = 0;
   //Serial.print("averageC after mapping: ");
   //Serial.println(averageC);
   registerMap[2] = averageC;
@@ -169,6 +172,7 @@ void loop()
   //Serial.print("averageD before mapping: ");
   //Serial.println(averageD);
   averageD = map(averageD, Dmin, Dmax, 0, 100);
+  if (averageD < 0) averageD = 0;
   //Serial.print("averageD after mapping: ");
   //Serial.println(averageD);
   registerMap[3] = averageD;
@@ -185,6 +189,7 @@ void loop()
   //Serial.print("averageE before mapping: ");
   //Serial.println(averageE);
   averageE = map(averageE, Emin, Emax, 0, 100);
+  if (averageE < 0) averageE = 0;
   //Serial.print("averageE after mapping: ");
   //Serial.println(averageE);
   registerMap[4] = averageE;
@@ -201,6 +206,7 @@ void loop()
   //Serial.print("averageF before mapping: ");
   //Serial.println(averageF);
   averageF = map(averageF, Fmin, Fmax, 0, 100);
+  if (averageF < 0) averageF = 0;
   //Serial.print("averageF after mapping: ");
   //Serial.println(averageF);
   //Serial.println();
