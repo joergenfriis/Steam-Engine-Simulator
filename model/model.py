@@ -30,13 +30,14 @@ def ModelStop():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Model stop Failed after 30 retries")
     if Success:
         servo.gangskifte(50)
-        print('model stop')
+        time.sleep(10)
+        #print('model stop')
     return -1
 
 def ModelRun(energi,gear):
@@ -49,13 +50,13 @@ def ModelRun(energi,gear):
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Model run failed after 30 retries")
     if Success:
         servo.gangskifte(gear)
-        print('model run, energi= {} og gear = {}'.format(energi,gear))
+        #print('model run, energi= {} og gear = {}'.format(energi,gear))
     return -1
 
 def ModelReset():
@@ -68,11 +69,12 @@ def ModelReset():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Model reset failed after 30 retries")
     if Success:
         servo.gangskifte(50)
-        print('model reset')
+        time.sleep(10)
+        #print('model reset')
     return -1
