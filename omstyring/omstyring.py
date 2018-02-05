@@ -30,13 +30,13 @@ def Read_omstyring():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read omstyring failed after 30 retries")
     if Success:
         status = data[0]
         omstyring = data[1]
-        print('Omstyring read = ',omstyring)
+        #print('Omstyring read = ',omstyring)
     return omstyring
     
