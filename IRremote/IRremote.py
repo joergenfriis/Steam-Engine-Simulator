@@ -29,12 +29,12 @@ def TVonOff():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("TV On/Off")
+        print("TV on/off failed after 30 retries")
+    #if Success:
+        #print("TV On/Off")
     return -1
 
 def TVrightArrow():
@@ -46,12 +46,12 @@ def TVrightArrow():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("TV Right arrow")
+        print("TV -> failed after 30 retries")
+    #if Success:
+        #print("TV Right arrow")
     return -1
 
 def TVok():
@@ -63,12 +63,12 @@ def TVok():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("TV OK")
+        print("TV ok failed after 30 retries")
+    #if Success:
+        #print("TV OK")
     return -1
 
 def TVpause():
@@ -80,10 +80,10 @@ def TVpause():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("TV Pause")
+        print("TV pause failed after 30 retries")
+    #if Success:
+        #print("TV Pause")
     return -1
