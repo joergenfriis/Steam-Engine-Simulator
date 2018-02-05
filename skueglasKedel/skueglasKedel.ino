@@ -48,8 +48,8 @@ void setup()
   Wire.begin(Slave_ADDRESS);
   Wire.onReceive(receiveEvent);
   
-  //Serial.begin(9600);
-  //Serial.println("Setup begin");
+  Serial.begin(9600);
+  Serial.println("Setup begin");
   
   for (int i = 0; i < 1; i++)
   {
@@ -61,8 +61,8 @@ void setup()
   
   pinMode(irRead, INPUT);
   
-  //Serial.print("stepPrProcent = ");
-  //Serial.println(stepPrProcent);
+  Serial.print("stepPrProcent = ");
+  Serial.println(stepPrProcent);
   
   reset();
   vaeske(startFyldning);
@@ -71,14 +71,14 @@ void setup()
 // Afvikling af programmet
 void loop()
 {
-  delay(100);
-  //Serial.print("Loop procedure, analogRead = ");
-  //Serial.println(analogRead(irRead));
+  delay(1000);
+  Serial.print("Loop procedure, analogRead = ");
+  Serial.println(analogRead(irRead));
   int niveau = registerMap[0];
-  //Serial.print("Niveau = ");
-  //Serial.println(niveau);
-  //Serial.print("Hoejde = ");
-  //Serial.println(hoejde);
+  Serial.print("Niveau = ");
+  Serial.println(niveau);
+  Serial.print("Hoejde = ");
+  Serial.println(hoejde);
   if (niveau < 101) vaeske(niveau);
   if (niveau == 110) vaeske(hoejde+1);
   if (niveau == 111) vaeske(hoejde-1);
@@ -97,10 +97,11 @@ void singleStep()
 
 void reset()
 {
-  //Serial.print("Reset procedure, analogRead = ");
-  //Serial.println(analogRead(irRead));
+  Serial.print("Reset procedure, analogRead = ");
+  Serial.println(analogRead(irRead));
   while (analogRead(irRead) < limit)  // der pumpes væske over i reservoir røret til lysstrålen brydes.
   {
+    Serial.println(analogRead(irRead));
     digitalWrite(motorRetning, HIGH);
     singleStep();
   }
@@ -110,10 +111,10 @@ void reset()
 
 void vaeske(int niveau)
 {
-  //Serial.print("Vaeske procedure, niveau = ");
-  //Serial.println(niveau);
-  //Serial.print("                  hoejde = ");
-  //Serial.println(hoejde);
+  Serial.print("Vaeske procedure, niveau = ");
+  Serial.println(niveau);
+  Serial.print("                  hoejde = ");
+  Serial.println(hoejde);
   if (niveau != hoejde)
   {
     if (niveau > hoejde)
