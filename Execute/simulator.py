@@ -94,7 +94,7 @@
 # virkning[25] = Lyd af dampfloejte (0-100%)
 # 
 #
-# Joergen Friis 03.02.2018
+# Joergen Friis 05.02.2018
 #
 #############################################################################
 
@@ -787,7 +787,7 @@ def start(valg):
             if virkning[21] != 101:
                 virkning[21] = 101
                 virkning[24] = 1
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(flute, loops=0)
                 time.sleep(5)
                 channel12.set_volume(0,1)
@@ -799,7 +799,7 @@ def start(valg):
             if virkning[20] != 8:
                 virkning[20] = 8
                 servo.maskintelegraf_FS()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=2, maxtime=1000)
                 
                 
@@ -807,60 +807,64 @@ def start(valg):
         if (realTid > 305) and (realTid <= 325):
             if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if (realTid > 325) and (realTid <= 345):
             if virkning[20] != 4:
                 virkning[20] = 4
                 servo.maskintelegraf_LB()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
                 
 
         if (realTid > 345) and (realTid <= 365):
             if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if (realTid > 365) and (realTid <= 390):
             if virkning[20] != 1:
                 virkning[20] = 1
                 servo.maskintelegraf_HF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
                         
 
         if (realTid > 390) and (realTid < 965):
             if virkning[20] != 0:
                 virkning[20] = 0
-                servo.maskintelegraf_FF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_FF()
 
+                
         if (realTid > 800) and (realTid <= 900):            # Roegmaskine aktiveres
             print("Virkning[24] = ",virkning[24])
             if virkning[24] != 0:
                 virkning[24] = 0
+                servoTemp.vis(600)
                 powernet.Relay9on()
                 smokeStart = realTid
 
-        if smokeStart > 0:
-            if (realTid - smokeStart) > 40:
+        if ((realTid - smokeStart) > 0) and ((realTid - smokeStart) < 310):
+            if (realTid - smokeStart) > 60:
                 powernet.Relay9off()
+                time.sleep(3)
                 powernet.Relay7on()
-            if (realTid - smokeStart) > 600:
-                powernet.Relay7off()
+            if (realTid - smokeStart) > 300:
+                servoTemp.vis(300)
+                smokeStart = 0
 
         if (realTid > 900) and (realTid < 950):
             if virkning[21] != 102:
                 virkning[21] = 102
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(flute, loops=0)
                 time.sleep(5)
                 channel12.set_volume(0,1)
@@ -871,97 +875,99 @@ def start(valg):
         if (realTid > 968) and (realTid <= 1033):
            if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if (realTid > 1033) and (realTid <= 1055):
             if virkning[20] != 4:
                 virkning[20] = 4
-                servo.maskintelegraf_LB()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LB()
                 
 
         if (realTid > 1055) and (realTid <= 1092):
             if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if (realTid > 1092) and (realTid <= 1118):
             if virkning[20] != 4:
                 virkning[20] = 4
-                servo.maskintelegraf_LB()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LB()
                 
 
         if (realTid > 1118) and (realTid <= 1231):
             if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if (realTid > 1231) and (realTid <= 1259):
             if virkning[20] != 4:
                 virkning[20] = 4
-                servo.maskintelegraf_LB()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LB()
                 
 
         if (realTid > 1259) and (realTid <= 1290):
             if virkning[20] != 2:
                 virkning[20] = 2
                 servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
                 
 
         if (realTid > 1290) and (realTid <= 1317):
             if virkning[20] != 4:
                 virkning[20] = 4
-                servo.maskintelegraf_LB()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LB()
                 
 
         if (realTid > 1317) and (realTid <= 1387):
             if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if (realTid > 1387) and (realTid <= 1403):
             if virkning[20] != 4:
                 virkning[20] = 4
-                servo.maskintelegraf_LB()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
-                        
+                servo.maskintelegraf_LB()
+                
 
         if (realTid > 1403) and (realTid <= 1630):
            if virkning[20] != 2:
                 virkning[20] = 2
-                servo.maskintelegraf_LF()
-                #channel3.set_volume(1,0)
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_LF()
                 
 
         if realTid > 1603:
             if virkning[20] != 3:
                 virkning[20] = 3
-                servo.maskintelegraf_FS()
-                #channel3.set_volume(1,0)
+                virkning[25] = 1
+                channel3.set_volume(1,0)
                 channel3.play(maskintelegraf, loops=0)
+                servo.maskintelegraf_FS()
+
                 
         if realTid > 1615:
             if virkning[25] > 0:
@@ -982,6 +988,7 @@ def start(valg):
                 callTime = realTid
 
         if realTid > 1700:
+            powernet.RelayAlloff()
             return      # Programmet stopper efter et gennemloeb af spillet og starter for fra med ny initiering
 
 
