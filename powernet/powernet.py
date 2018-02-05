@@ -39,13 +39,13 @@ def Relay2on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 2 on")
+        print("Relay 2 on failed after 30 retries")
+    #if Success:
+        #print("Relay 2 on")
     return -1
 
 def Relay2off():
@@ -59,12 +59,12 @@ def Relay2off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 2 off")
+        print("Relay 2 off failed after 30 retries")
+    #if Success:
+        #print("Relay 2 off")
     return -1
 
 def Relay3on():
@@ -78,12 +78,12 @@ def Relay3on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 3 on")
+        print("Relay 3 on failed after 30 retries")
+    #if Success:
+        #print("Relay 3 on")
     return -1
 
 def Relay3off():
@@ -97,12 +97,12 @@ def Relay3off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 3 off")
+        print("Relay 3 off failed after 30 retries")
+    #if Success:
+        #print("Relay 3 off")
     return -1
 
 def Relay4on():
@@ -116,12 +116,12 @@ def Relay4on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 4 on")
+        print("Relay 4 on failed after 30 retries")
+    #if Success:
+        #print("Relay 4 on")
     return -1
 
 def Relay4off():
@@ -135,12 +135,12 @@ def Relay4off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 4 off")
+        print("Relay 4 off failed after 30 retries")
+    #if Success:
+        #print("Relay 4 off")
     return -1
 
 def Relay5on():
@@ -154,12 +154,12 @@ def Relay5on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 5 on")
+        print("Relay 5 on failed after 30 retries")
+    #if Success:
+        #print("Relay 5 on")
     return -1
 
 def Relay5off():
@@ -173,12 +173,12 @@ def Relay5off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 5 off")
+        print("Relay 5 off failed after 30 retries")
+    #if Success:
+        #print("Relay 5 off")
     return -1
 
 def Relay6on():
@@ -192,12 +192,12 @@ def Relay6on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 6 on")
+        print("Relay 6 on failed after 30 retries")
+    #if Success:
+        #print("Relay 6 on")
     return -1
 
 def Relay6off():
@@ -211,12 +211,12 @@ def Relay6off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 6 off")
+        print("Relay 6 off failed after 30 retries")
+    #if Success:
+        #print("Relay 6 off")
     return -1
 
 def Relay7on():
@@ -230,12 +230,12 @@ def Relay7on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 7 on")
+        print("Relay 7 on failed after 30 retries")
+    #if Success:
+        #print("Relay 7 on")
     return -1
 
 def Relay7off():
@@ -249,12 +249,12 @@ def Relay7off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 7 off")
+        print("Relay 7 off failed after 30 retries")
+    #if Success:
+        #print("Relay 7 off")
     return -1
 
 def Relay8on():
@@ -268,12 +268,12 @@ def Relay8on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 8 on")
+        print("Relay 8 on failed after 30 retries")
+    #if Success:
+        #print("Relay 8 on")
     return -1
 
 def Relay8off():
@@ -287,12 +287,12 @@ def Relay8off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 8 off")
+        print("Relay 8 0ff failed after 30 retries")
+    #if Success:
+        #print("Relay 8 off")
     return -1
 
 def Relay9on():
@@ -306,12 +306,12 @@ def Relay9on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 9 on")
+        print("Relay 9 on failed after 30 retries")
+    #if Success:
+        #print("Relay 9 on")
     return -1
 
 def Relay9off():
@@ -325,12 +325,12 @@ def Relay9off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 9 off")
+        print("Relay 9 off failed after 30 retries")
+    #if Success:
+        #print("Relay 9 off")
     return -1
 
 def Relay10on():
@@ -344,12 +344,12 @@ def Relay10on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 10 on")
+        print("Relay 10 on failed after 30 retries")
+    #if Success:
+        #print("Relay 10 on")
     return -1
 
 def Relay10off():
@@ -363,12 +363,12 @@ def Relay10off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 10 off")
+        print("Relay 10 off failed after 30 retries")
+    #if Success:
+        #print("Relay 10 off")
     return -1
 
 def Relay11on():
@@ -382,12 +382,12 @@ def Relay11on():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 11 on")
+        print("Relay 11 on failed after 30 retries")
+    #if Success:
+        #print("Relay 11 on")
     return -1
 
 def Relay11off():
@@ -401,12 +401,12 @@ def Relay11off():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0]) 
+            #print("Unexpected error:", sys.exc_info() [0]) 
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Relay 11 off")
+        print("Relay 11 off failed after 30 retries")
+    #if Success:
+        #print("Relay 11 off")
     return -1
 
 
@@ -430,6 +430,6 @@ def RelayAlloff():
     Relay10off()
     time.sleep(1)
     Relay11off()
-    print("All relays off")
+    #print("All relays off")
 
     
