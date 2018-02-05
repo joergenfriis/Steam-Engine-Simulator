@@ -28,13 +28,13 @@ def readKedelvandInd():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read kedelvand ind failed after 30 retries")
     if Success:
         kedelvandInd = data[1]
-        print("Kedelvand Ind = ",kedelvandInd," %")
+        #print("Kedelvand Ind = ",kedelvandInd," %")
     return kedelvandInd
 
 def readKedelvandUd():
@@ -47,13 +47,13 @@ def readKedelvandUd():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read kedelvand ud failed after 30 retries")
     if Success:
         kedelvandUd = data[0]
-        print("Kedelvand Ud = ",kedelvandUd," %")
+        #print("Kedelvand Ud = ",kedelvandUd," %")
     return kedelvandUd
 
 def readKondensatorvandInd():
@@ -66,13 +66,13 @@ def readKondensatorvandInd():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("kondensatorvand ind failed after 30 retries")
     if Success:
         kondensatorvandInd = data[3]
-        print("Kondensatorvand Ind = ",kondensatorvandInd," %")
+        #print("Kondensatorvand Ind = ",kondensatorvandInd," %")
     return kondensatorvandInd
     
 def readKondensatorvandUd():
@@ -85,13 +85,13 @@ def readKondensatorvandUd():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read kondensatorvand ud failed after 30 retries")
     if Success:
         kondensatorvandUd = data[2]
-        print("Kondensatorvand Ud = ",kondensatorvandUd," %")
+        #print("Kondensatorvand Ud = ",kondensatorvandUd," %")
     return kondensatorvandUd
 
 def readDampInd():
@@ -104,13 +104,13 @@ def readDampInd():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read damp ind failed after 30 retries")
     if Success:
         dampInd = data[4]
-        print("Damp Ind = ",dampInd," %")
+        #print("Damp Ind = ",dampInd," %")
     return dampInd
 
 def readDampUd():
@@ -123,11 +123,11 @@ def readDampUd():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read damp ud failed after 30 retries")
     if Success:
         dampUd = data[5]
-        print("Damp Ud = ",dampUd," %")
+        #print("Damp Ud = ",dampUd," %")
     return dampUd
