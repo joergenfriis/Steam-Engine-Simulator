@@ -9,10 +9,12 @@
 # Foerste byte kan vaere 0 eller 1 for hhv slukket og taendt motor.
 # Andet byte er et tal mellem 0 og 255, der angiver motorens hastighed.
 #
-# 12.12.2017 Joergen Friis
+# 23.01.2018 Joergen Friis
 #**************************************************************************
 
 import smbus
+import sys
+import time
 
 bus = smbus.SMBus(1)
 
@@ -26,12 +28,12 @@ def TransportStop():
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Transportbaand stoppet")
+        print("Transportbaand stop failed after 30 retries")
+    #if Success:
+        #print("Transportbaand stoppet")
     return -1
 
 def TransportGo(speed):
@@ -44,10 +46,10 @@ def TransportGo(speed):
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Transportbaand koerer. Speed = ",speed)
+        print("Transportbaand go failed after 30 retries")
+    #if Success:
+        #print("Transportbaand koerer. Speed = ",speed)
     return -1
