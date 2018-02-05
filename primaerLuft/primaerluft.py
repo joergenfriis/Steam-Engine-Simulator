@@ -29,13 +29,13 @@ def Read_primaerluft():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read primaerluft failed after 30 retries")
     if Success:
         primaerluft = data[0]
-        print("Primaer luft = ",primaerluft," %")
+        #print("Primaer luft = ",primaerluft," %")
     return primaerluft
 
             
