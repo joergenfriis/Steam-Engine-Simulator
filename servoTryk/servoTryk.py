@@ -22,7 +22,7 @@ import sys
 bus = smbus.SMBus(1)
 
 def vis(vacuum,tryk):
-    tryk = int(1.3 * tryk + 48)
+    tryk = int(1.6 * tryk + 60)
     vacuum = int(22 * vacuum + 80)
     Success = False
     caught_exception = None
@@ -32,12 +32,12 @@ def vis(vacuum,tryk):
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Vacuum = ",vacuum,", tryk = ",tryk)
+        print("Servo tryk failed after 30 retries")
+    #if Success:
+        #print("Vacuum = ",vacuum,", tryk = ",tryk)
     return -1
 
 
