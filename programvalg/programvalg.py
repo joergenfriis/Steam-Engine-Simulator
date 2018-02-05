@@ -29,11 +29,11 @@ def read():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Programvalg read failed after 30 retries")
     if Success:
         programvalg = data[1]
-        print("Programvalg = ",programvalg)
+        #print("Programvalg = ",programvalg)
     return programvalg
