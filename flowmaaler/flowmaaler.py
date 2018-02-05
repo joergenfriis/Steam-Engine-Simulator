@@ -26,12 +26,12 @@ def Reset_flowmaaler():
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Flowmaaler resat")
+        print("Reset flowmaaler failed after 30 retries")
+    #if Success:
+        #print("Flowmaaler resat")
     return -1
 
 
@@ -45,13 +45,13 @@ def Read_flowmaaler():
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("fead flowmaaler Failed after 30 retries")
     if Success:
         reset = data[0]
         liter = data[1]
-        print("Flowmaaleren viser: ",liter)
+        #print("Flowmaaleren viser: ",liter)
     return liter
 
