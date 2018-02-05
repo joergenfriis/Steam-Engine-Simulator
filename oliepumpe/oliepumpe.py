@@ -8,7 +8,7 @@
 # Programmet sender et byte til Arduinoen, der styrer reset, og det
 # modtager et int fra Arduinoen med det gennemstroemmede volumen i liter.
 #
-# Joergen Friis 12.12.2017
+# Joergen Friis 14.01.2018
 #
 #****************************************************************************
 import smbus
@@ -27,12 +27,12 @@ def Reset_flowmaaler():
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Flowmaaler resat")
+        print("Reset flowmaaler failed after 30 retries")
+    #if Success:
+        #print("Flowmaaler resat")
     return -1
 
 
@@ -42,17 +42,17 @@ def Read_flowmaaler():
     caught_exception = None
     for _ in range(30):
         try:
-            bus.read_i2c_block_data(0x51,0)
+            data = bus.read_i2c_block_data(0x51,0)
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read flowmaaler failed after 30 retries")
     if Success:
         reset = data[0]
         liter = data[1]
-        print("Flowmaaleren viser: ",liter)
+        #print("Flowmaaleren viser: ",liter)
     return liter
 
