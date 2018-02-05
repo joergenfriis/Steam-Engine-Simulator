@@ -30,13 +30,13 @@ def set(niveau):
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas olie ",niveau," %")
+        print("Set skueglas olie failed after 30 retries")
+    #if Success:
+        #print("Skueglas olie ",niveau," %")
     return -1
 
 
@@ -51,13 +51,13 @@ def plus1():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas olie plus 1 %")
+        print("Skueglas olie plus 1 failed after 30 retries")
+    #if Success:
+        #print("Skueglas olie plus 1 %")
     return -1
 
 def minus1():
@@ -71,13 +71,13 @@ def minus1():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas olie minus 1 %")
+        print("Skueglas olie minus 1 failed after 30 retries")
+    #if Success:
+        #print("Skueglas olie minus 1 %")
     return -1
 
 def reset():
@@ -91,11 +91,11 @@ def reset():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Skueglas olie resat")
+        print("Skueglas olie reset failed after 30 retries")
+    #if Success:
+        #print("Skueglas olie resat")
     return -1
