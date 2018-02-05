@@ -29,13 +29,13 @@ def Read_sekundaerluft():
             Success = True
             break
         except:
-            print("Unexpected error: ",sys.exc_info() [0])
+            #print("Unexpected error: ",sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read sekundaerluft failed after 30 retries")
     if Success:
         sekundaerluft = data[0]
-        print("Sekundaer luft = ",sekundaerluft," %")
+        #print("Sekundaer luft = ",sekundaerluft," %")
     return sekundaerluft
 
             
