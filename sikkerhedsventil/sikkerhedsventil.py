@@ -28,13 +28,13 @@ def sikkerhedsventilOn():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        Print("Failed after 30 retries")
-    if Success:
-        print("Sikkerhedsventil on")
+        Print("Sikkerhedsventil on failed after 30 retries")
+    #if Success:
+        #print("Sikkerhedsventil on")
     return -1
  
 
@@ -49,11 +49,11 @@ def sikkerhedsventilOff():
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             # wait a second for the retry
             time.sleep(1)
     if not Success:
-        Print("Failed after 30 retries")
-    if Success:
-        print("Sikkerhedsventil off")
+        Print("Sikkerhedsventil off failed after 30 retries")
+    #if Success:
+        #print("Sikkerhedsventil off")
     return -1
