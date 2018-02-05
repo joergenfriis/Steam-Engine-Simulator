@@ -27,12 +27,12 @@ def Reset_vejecelle():
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Vejecelle resat")
+        print("Reset vejecelle failed after 30 retries")
+    #if Success:
+        #print("Vejecelle resat")
     return -1
 
 
@@ -47,14 +47,14 @@ def Read_vejecelle():
             Success = True
             break
         except:
-            print("Unexpected error: ", sys.exc_info() [0])
+            #print("Unexpected error: ", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
+        print("Read vejecelle failed after 30 retries")
     if Success:
         reset = data[0]
         msb = data[1]
         lsb = data[2]
         masse = msb * 256 + lsb
-        print("Vejecelle viser: ",masse," gram")
+        #print("Vejecelle viser: ",masse," gram")
     return masse
