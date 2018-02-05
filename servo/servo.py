@@ -25,7 +25,7 @@ servo3_max = 390 # testet
 servo4_min = 240 # testet
 servo4_max = 290 # testet
 servo5_min = 280 # testet Fuld kraft frem
-servo5_max = 430 # testet Fuld kraft bak
+servo5_max = 450 # testet Fuld kraft bak
 
 
 def servoTest(drej):
@@ -78,6 +78,6 @@ def kondensatorTryk(tryk):
 def gangskifte(stilling):
     step = int(stilling/100*(servo5_max-servo5_min) + servo5_min)
     pwm.set_pwm(servo5, 0, step)
-    print("step: ",step)
-    print("Gangskifte servo stilling: ",stilling)
+    #print("step: ",step)
+    #print("Gangskifte servo stilling: ",stilling)
     
