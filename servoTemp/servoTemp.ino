@@ -1,6 +1,6 @@
 /*
 servo slave
-slave  0x43
+slave  0x44
 
 Kontrollerer servomotor: roegtemperatur
 
