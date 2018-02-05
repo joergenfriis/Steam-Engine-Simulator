@@ -9,16 +9,37 @@ import powernet
 import transport
 import servo
 import model
+import vejecelle
+import flowmaaler
+import omstyring
+import skueglasOlie
+import skueglasKedel
+import primaerluft
+import sekundaerLuft
+import roegroer
+import ventiler
+import sikkerhedsventil
+import IRremote
+import programvalg
+import servoTryk
+import servoTemp
 
 print("Starter testprogram.")
 
-print("Slukker alle relæer")
+servoTryk.vis(0.5,5)
+servoTemp.vis(300)
+sikkerhedsventil.sikkerhedsventilOff()
+transport.TransportStop()
 powernet.RelayAlloff()
-time.sleep(1)
+skueglasOlie.set(50)
+skueglasKedel.set(70)
+time.sleep(5)
+servo.maskintelegraf_FS()
+time.sleep(5)
 
-print("Tænder for strøm til relæ 9")
-powernet.Relay9on()
-time.sleep(1)
+
+model.ModelStop()
+
 
 
 
