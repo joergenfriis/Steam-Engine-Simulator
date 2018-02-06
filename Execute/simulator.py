@@ -179,6 +179,7 @@ def start(valg):
 
     if ((handling[11] == 2) or (handling[11] == 4)):
         design[1] = 500
+        design[3] = 20
         design[6] = 0.1
         design[8] = design[1]/200
         design[13] = 0.0333
@@ -186,6 +187,7 @@ def start(valg):
         design[15] = 95
     else:
         design[1] = 7690
+        design[3] = 2
         design[6] = 5
         design[8] = design[1]/200
         design[13] = 0.000278
@@ -353,28 +355,28 @@ def start(valg):
             skipper01 = pygame.mixer.Sound("Sound/skipper01.ogg")
             skipper02 = pygame.mixer.Sound("Sound/skipper02.ogg")
             skipper03 = pygame.mixer.Sound("Sound/skipper03.ogg")
-            skipper04 = pygame.mixer.Sound("Sound/skipper04.ogg")
-            skipper05 = pygame.mixer.Sound("Sound/skipper05.ogg")
-            skipper06 = pygame.mixer.Sound("Sound/skipper06.ogg")
-            skipper07 = pygame.mixer.Sound("Sound/skipper07.ogg")
-            skipper08 = pygame.mixer.Sound("Sound/skipper08.ogg")
-            skipper09 = pygame.mixer.Sound("Sound/skipper09.ogg")
-            skipper10 = pygame.mixer.Sound("Sound/skipper10.ogg")
-            skipper11 = pygame.mixer.Sound("Sound/skipper11.ogg")
-            skipper12 = pygame.mixer.Sound("Sound/skipper12.ogg")
-            skipper13 = pygame.mixer.Sound("Sound/skipper13.ogg")
-            skipper14 = pygame.mixer.Sound("Sound/skipper14.ogg")
-            skipper15 = pygame.mixer.Sound("Sound/skipper15.ogg")
-            skipper16 = pygame.mixer.Sound("Sound/skipper16.ogg")
-            chief01 = pygame.mixer.Sound("Sound/chief01.ogg")
-            chief02 = pygame.mixer.Sound("Sound/chief02.ogg")
-            chief03 = pygame.mixer.Sound("Sound/chief03.ogg")
-            chief04 = pygame.mixer.Sound("Sound/chief04.ogg")
-            chief05 = pygame.mixer.Sound("Sound/chief05.ogg")
-            chief06 = pygame.mixer.Sound("Sound/chief06.ogg")
-            chief07 = pygame.mixer.Sound("Sound/chief07.ogg")
-            chief08 = pygame.mixer.Sound("Sound/chief08.ogg")
-            chief09 = pygame.mixer.Sound("Sound/chief09.ogg")
+            #skipper04 = pygame.mixer.Sound("Sound/skipper04.ogg")
+            #skipper05 = pygame.mixer.Sound("Sound/skipper05.ogg")
+            #skipper06 = pygame.mixer.Sound("Sound/skipper06.ogg")
+            #skipper07 = pygame.mixer.Sound("Sound/skipper07.ogg")
+            #skipper08 = pygame.mixer.Sound("Sound/skipper08.ogg")
+            #skipper09 = pygame.mixer.Sound("Sound/skipper09.ogg")
+            #skipper10 = pygame.mixer.Sound("Sound/skipper10.ogg")
+            #skipper11 = pygame.mixer.Sound("Sound/skipper11.ogg")
+            #skipper12 = pygame.mixer.Sound("Sound/skipper12.ogg")
+            #skipper13 = pygame.mixer.Sound("Sound/skipper13.ogg")
+            #skipper14 = pygame.mixer.Sound("Sound/skipper14.ogg")
+            #skipper15 = pygame.mixer.Sound("Sound/skipper15.ogg")
+            #skipper16 = pygame.mixer.Sound("Sound/skipper16.ogg")
+            #chief01 = pygame.mixer.Sound("Sound/chief01.ogg")
+            #chief02 = pygame.mixer.Sound("Sound/chief02.ogg")
+            #chief03 = pygame.mixer.Sound("Sound/chief03.ogg")
+            #chief04 = pygame.mixer.Sound("Sound/chief04.ogg")
+            #chief05 = pygame.mixer.Sound("Sound/chief05.ogg")
+            #chief06 = pygame.mixer.Sound("Sound/chief06.ogg")
+            #chief07 = pygame.mixer.Sound("Sound/chief07.ogg")
+            #chief08 = pygame.mixer.Sound("Sound/chief08.ogg")
+            #chief09 = pygame.mixer.Sound("Sound/chief09.ogg")
             Success = True
             break
         except:
@@ -447,6 +449,7 @@ def start(valg):
     callTime = 0
     indpumpetFoer = 0
     smokeStart = 0
+    roeg = False
     startTid = time.time()
 
     time.sleep(1)
@@ -571,16 +574,18 @@ def start(valg):
         if ((handling[9]+handling[10]+tilstand[16]) == 0):
             tilstand[18] = 0
             tilstand[19] = 0
-        else:
+
+        if handling[9] > 5:
             if tilstand[17] > 0.29:
                 tilstand[18] = 0.29 * handling[9]/100
             else:
                 tilstand[18] = tilstand[17]
-            if tilstand[16] == 1:
-                tilstand[19] = tilstand[17] - tilstand[18]
-            else:
-                tilstand[19] = (tilstand[17] - tilstand[18]) * handling[10]/100
-                
+            
+        if tilstand[16] == 1:
+            tilstand[19] = tilstand[17] - tilstand[18]
+        else:
+            tilstand[19] = (tilstand[17] - tilstand[18]) * handling[10]/100
+            
             
         tilstand[17] = tilstand[17] - (tilstand[18] + tilstand[19]) 
         tilstand[14] = tilstand[14] + tilstand[18]
@@ -727,18 +732,25 @@ def start(valg):
         #virkning[12] anvendes kun i initialiseringen
 
         virkning[14] = max(handling[5], handling[6])
-        channel4.set_volume(virkning[14]/100,0)
-        if not channel4.get_busy():
-            channel4.play(vand,loops=-1)
+        if virkning[14] > 10:
+            channel4.set_volume(virkning[14]/100,0)
+            if not channel4.get_busy():
+                channel4.play(vand,loops=-1)
+        else:
+            channel4.stop()
+                    
         
         if ((tilstand[5] > design[1]) or (tilstand[1] > design[4])):
             virkning[15] = 100
         else:
             virkning[15] = 0
 
-        channel11.set_volume(virkning[15]/100,0)
-        if not channel11.get_busy():
-            channel11.play(vandpjask, loops=-1)
+        if virkning[15] > 10:
+            channel11.set_volume(virkning[15]/100,0)
+            if not channel11.get_busy():
+                channel11.play(vandpjask, loops=-1)
+        else:
+            channel11.stop()
 
         if tilstand[16] == 1:
             virkning[16] = 100
@@ -747,26 +759,34 @@ def start(valg):
 
         if tilstand[6] > 3:
             virkning[23] = handling[10]
-            channel6.set_volume(virkning[23]/100,0)
-            if not channel6.get_busy():
-                if (tilstand[15] < (design[1]-tilstand[5])/(1.7259*1000)):
-                    channel6.play(luft, loops = 0)
-                    channel6.stop()
-                else:
-                    channel6.play(damp, loops =-1)
+            if virkning[23] > 10:
+                channel6.set_volume(virkning[23]/100,0)
+                if not channel6.get_busy():
+                    if (tilstand[15] < (design[1]-tilstand[5])/(1.7259*1000)):
+                        channel6.play(luft, loops = -1)
+                    else:
+                        channel6.play(damp, loops =-1)
+            else:
+                channel6.stop()
 
-        channel7.set_volume(virkning[16]/100,0)
-        if not channel7.get_busy():
-            channel7.play(overtryksventil, loops=-1)
+        if virkning[16] > 10:
+            channel7.set_volume(virkning[16]/100,0)
+            if not channel7.get_busy():
+                channel7.play(overtryksventil, loops=-1)
+        else:
+            channel7.stop()
 
         if tilstand[1] < 1:
             virkning[17] = 100-100*tilstand[1]
         else:
             virkning[17] = 0
 
-        channel8.set_volume(virkning[17]/100,0)
-        if not channel8.get_busy():
-            channel8.play(maskinpiv, loops=-1)
+        if ((virkning[17] > 10) and (tilstand[8] > 0)):
+            channel8.set_volume(virkning[17]/100,0)
+            if not channel8.get_busy():
+                channel8.play(maskinpiv, loops=-1)
+        else:
+            channel8.stop()
 
         if tilstand[1] < 0.1:
             virkning[18] = 100
@@ -774,9 +794,12 @@ def start(valg):
         else:
             virkning[18] = 0
 
-        channel9.set_volume(virkning[18]/100,0)
-        if not channel9.get_busy():
-            channel9.play(maskinhaveri, loops=0)
+        if virkning[18] > 10:
+            channel9.set_volume(virkning[18]/100,0)
+            if not channel9.get_busy():
+                channel9.play(maskinhaveri, loops=0)
+        else:
+            channel9.stop()
 
         #virkning[19] anvendes kun i initialiseringen
 
@@ -845,20 +868,25 @@ def start(valg):
 
                 
         if (realTid > 800) and (realTid <= 900):            # Roegmaskine aktiveres
-            print("Virkning[24] = ",virkning[24])
+            #print("Virkning[24] = ",virkning[24])
             if virkning[24] != 0:
                 virkning[24] = 0
-                servoTemp.vis(600)
+                tilstand[11] = 100
                 powernet.Relay9on()
+                #print("Roeg aktiveres")
+                roeg = True
                 smokeStart = realTid
 
-        if ((realTid - smokeStart) > 0) and ((realTid - smokeStart) < 310):
+        if (roeg == True) and ((realTid - smokeStart) < 310):
             if (realTid - smokeStart) > 60:
                 powernet.Relay9off()
+                #print("Roeg stoppes")
                 time.sleep(3)
                 powernet.Relay7on()
+                #print("Ventilator taendes")
+                tilstand[11] = 0
+                roeg = False
             if (realTid - smokeStart) > 300:
-                servoTemp.vis(300)
                 smokeStart = 0
 
         if (realTid > 900) and (realTid < 950):
@@ -952,7 +980,7 @@ def start(valg):
                 servo.maskintelegraf_LB()
                 
 
-        if (realTid > 1403) and (realTid <= 1630):
+        if (realTid > 1403) and (realTid <= 1600):
            if virkning[20] != 2:
                 virkning[20] = 2
                 channel3.set_volume(1,0)
@@ -960,7 +988,7 @@ def start(valg):
                 servo.maskintelegraf_LF()
                 
 
-        if realTid > 1603:
+        if (realTid > 1603) and (realTid <= 1610):
             if virkning[20] != 3:
                 virkning[20] = 3
                 virkning[25] = 1
@@ -969,7 +997,7 @@ def start(valg):
                 servo.maskintelegraf_FS()
 
                 
-        if realTid > 1615:
+        if (realTid > 1615) and (realTid <= 1630):
             if virkning[25] > 0:
                 channel9.set_volume(virkning[25],0)
                 channel9.play(dampflute, loops=0)
@@ -977,7 +1005,7 @@ def start(valg):
 
                 
 
-        if realTid > 1630:
+        if (realTid > 1630) and (realTid <= 1650):
             if virkning[21] != 103:
                 virkning[21] = 103
                 #channel3.set_volume(1,0)
@@ -995,7 +1023,7 @@ def start(valg):
     # DEBUGGING  ###############################################################################
 
         
-        print("Cykl = {:>4.0f}\tp = {:>6.4f}\tt = {:>6.4f}\tE(ind) = {:>6.4f}\t[17] = {:>6.4f}\t[18] = {:>6.4f}\t[8] = {:>6.4f}\t[25] = {:>6.4f}\tReal tid = {:>6.0f}".format(tid,tilstand[6],tilstand[13],tilstand[10],tilstand[17],tilstand[18],tilstand[8],tilstand[25],realTid))
+        print("Cykl = {:>4.0f}\tp = {:>4.2f} bar\tt = {:>6.2f} 0C\tE(ind) = {:>6.2f} kJ/sek  \tDamp i kedlen = {:>6.4f} kg\tMaskinydelse = {:>6.0f} %\t\tReal tid = {:>6.0f}".format(tid,tilstand[6],tilstand[13],tilstand[10],tilstand[17],tilstand[8],realTid))
 
     #    for i in range(0,12):
     #        print("Handling[",i,"] = ",handling[i])
