@@ -22,7 +22,7 @@ import sys
 bus = smbus.SMBus(1)
 
 def vis(vacuum,tryk):
-    tryk = int(1.6 * tryk + 60)
+    tryk = int(1.6 * tryk + 55)
     vacuum = int(22 * vacuum + 80)
     Success = False
     caught_exception = None
