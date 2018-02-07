@@ -5,8 +5,8 @@ In November 2015 I visited the S/S Alexandra in Flensburg Harbour in Germany. In
 The idea is to make a engine room in scale 1:1, as i could have been on at early 1900 stean ship. The Engine room will have no fire in the boiler and no water and steam, but it will simulate the behaviour of the steam ship engine based on how you turn the different operating handles and showel "coal" into the boiler. Coal is replaced with black granite for health reasons.
 
 STATUS
-The physical framework has been build, and the sensors and the software are under devellopment. 
+The simulator is operational in a beta version, to be tested on a live ordience over the next 6 months. 
 
-07-11-2017
+07-02-2018
 Joergen Friis
  
