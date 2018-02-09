@@ -44,7 +44,7 @@ while True:
     while programvalg.read() == 1:
         print("Starter demoprogram")
         skueglasOlie.set(50)
-        skueglasKedel.set(50)
+        skueglasKedel.set(70)
         if programvalg.read() == 1:
             demo.demo()
             

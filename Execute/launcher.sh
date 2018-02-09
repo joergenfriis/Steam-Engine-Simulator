@@ -4,5 +4,5 @@
 
 cd /
 cd home/pi/Simulator
-sudo python simulator.py
+sudo python3 master.py
 

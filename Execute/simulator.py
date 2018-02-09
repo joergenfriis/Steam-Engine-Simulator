@@ -9,18 +9,18 @@
 # virkning[]    Programmet giver ordre til de relevante slaver om virkning
 #
 # design[0] = Antal sekunder mellem hver opdatering
-# design[1] = Kedelrumfang i liter (realistisk 7.690 l, pædagogisk 500 l)
+# design[1] = Kedelrumfang i liter (realistisk 7.690 l, paedagogisk 500 l)
 # design[2] = Brandvaerdi af kul (32.000 kJ/kg)
 # design[3] = Smoereolieforbrug pr time ved 100 % maskinydelse (2 liter)
 # design[4] = Rumfang af smoereolietank (5 liter)
 # design[5] = Skalering af oliepumpe (0.1)
-# design[6] = Kedelvandstab (5 % af det tilførte damp kommer ikke retur)
+# design[6] = Kedelvandstab (5 % af det tilfoerte damp kommer ikke retur)
 # design[7] = Overtryksventil paa kedel (blaeser ved 10 bar)
 # design[8] = Kedelvandshaner max flow i liter/sek
 # design[9] = Kondensvandshaner max flow i liter/sek
 # design[10] = Damphaner max flow i kg/sek
-# design[11] = Længde af transportbånd i meter
-# design[12] = Max hastighed af transportbånd i meter/sek
+# design[11] = Laengde af transportbaand i meter
+# design[12] = Max hastighed af transportbaand i meter/sek
 # design[13] = Flyveaskeaflejring (tilstopning) % pr sekund
 # design[14] = Max dampforbrug i maskine (kg/sek)
 # design[15] = Starttemperatur i kedel
