@@ -10,7 +10,7 @@
  
  Pumpen har 200 step paa en omdrejning, hvilket svarer til XX cm på skueglasset.
 
- Joergen Friis 24/01-2018
+ Joergen Friis 20/02-2018
 ****************************************************************/
 
 #include <Wire.h>
@@ -103,6 +103,12 @@ void reset()
   {
     Serial.println(analogRead(irRead));
     digitalWrite(motorRetning, HIGH);
+    singleStep();
+  }
+  
+  while (analogRead(irRead) > limit)
+  {
+    digitalWrite(motorRetning, LOW);
     singleStep();
   }
   
