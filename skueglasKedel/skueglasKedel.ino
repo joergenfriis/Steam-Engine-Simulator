@@ -19,10 +19,10 @@
 
 //Konstanter
 
-const int stepPrMm = 10;  // skal fastsaettes eksperimentelt.
+const int stepPrMm = 11;  // skal fastsaettes eksperimentelt.
 const int glasHoejde = 35;
 const int startFyldning = 50;
-const int limit = 400;
+const int limit = 500;
 
 // Navngivning af input og output på Arduinoen
 // Digitale I/O pins
