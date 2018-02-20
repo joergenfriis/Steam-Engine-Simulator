@@ -14,7 +14,7 @@
  
  Pumpen har 200 step paa en omdrejning, hvilket svarer til XX cm på skueglasset.
 
- Joergen Friis 24/01-2018
+ Joergen Friis 20/02-2018
 ****************************************************************/
 
 #include <Wire.h>
@@ -101,6 +101,12 @@ void reset()
    while (analogRead(irRead) < limit)  // der pumpes væske over i reservoir røret til lysstrålen brydes.
   {
     digitalWrite(motorRetning, HIGH);
+    singleStep();
+  }
+  
+  while (analogRead(irRead) > limit)
+  {
+    digitalWrite(motorRetning, LOW);
     singleStep();
   }
   
