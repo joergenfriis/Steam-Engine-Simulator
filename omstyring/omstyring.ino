@@ -8,11 +8,10 @@ Status:            1 byte    read
 Omstyring:         1 byte    read  
 
 Programmet læser omstyringens stilling ved hjælp af spændingsfaldet 
-over et skydepotentiometer.
+over et potentiometer.
 
-Viseren på omstyringen drives af en servomotor, der styres af pythonmodulet servo.py.
 
-Joergen Friis 26.01.2018
+Joergen Friis 12.03.2018
 */
 
 #include<Wire.h>
@@ -34,6 +33,7 @@ int average = 0;              // gennemsnittet af målingerne
 
 void setup()
 {
+  Serial.begin(9600);
   Wire.begin(SLAVE_ADDRESS);
   Wire.onRequest(requestEvent);  // Kalder funktionen requestEvent når masteren anmoder om data fra slaven
   
@@ -53,7 +53,9 @@ void loop()
   delay(10);
   
   total = total - readings[readIndex];    // subtract the last reading
-  stilling = map(analogRead(ANALOG_INPUT_PIN),190,800,0,100);   // aflaes og skaler aflaesningen af sensoren
+ // Serial.println(analogRead(ANALOG_INPUT_PIN));
+  stilling = map(analogRead(ANALOG_INPUT_PIN),398,620,0,100);   // aflaes og skaler aflaesningen af sensoren
+  Serial.println(stilling);
   if (stilling < 0) stilling = 0;
   readings[readIndex] = stilling;  // gem aflaesningen
   total = total + readings[readIndex];    // adder målingen til totalen
