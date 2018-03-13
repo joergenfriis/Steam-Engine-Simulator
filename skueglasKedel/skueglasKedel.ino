@@ -10,7 +10,7 @@
  
  Pumpen har 200 step paa en omdrejning, hvilket svarer til XX cm på skueglasset.
 
- Joergen Friis 20/02-2018
+ Joergen Friis 13/03-2018
 ****************************************************************/
 
 #include <Wire.h>
@@ -19,9 +19,9 @@
 
 //Konstanter
 
-const int stepPrMm = 11;  // skal fastsaettes eksperimentelt.
+const int stepPrMm = 10;  // skal fastsaettes eksperimentelt.
 const int glasHoejde = 35;
-const int startFyldning = 50;
+const int startFyldning = 60;
 const int limit = 500;
 
 // Navngivning af input og output på Arduinoen
