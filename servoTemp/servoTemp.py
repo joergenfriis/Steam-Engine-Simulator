@@ -12,7 +12,7 @@
 # angiver temperaturen.
 #
 #***************************************************************************
-# Joergen Friis 20.01.2018
+# Joergen Friis 19.03.2018
 #***************************************************************************
 
 import smbus
@@ -22,7 +22,9 @@ import sys
 bus = smbus.SMBus(1)
 
 def vis(temp):
-    #temp = int(1.50 * temp + 48)
+    if temp > 600:
+        temp = 600
+    temp = int(100 - 0.167 * temp)
     Success = False
     caught_exception = None
     for _ in range (30):
@@ -31,12 +33,12 @@ def vis(temp):
             Success = True
             break
         except:
-            print("Unexpected error:", sys.exc_info() [0])
+            #print("Unexpected error:", sys.exc_info() [0])
             time.sleep(1)
     if not Success:
-        print("Failed after 30 retries")
-    if Success:
-        print("Temperatur = ",temp)
+        print("Servo temp vis failed after 30 retries")
+    #if Success:
+        #print("Temperatur = ",temp)
     return -1
 
 
