@@ -14,7 +14,7 @@
  
  Pumpen har 200 step paa en omdrejning, hvilket svarer til XX cm på skueglasset.
 
- Joergen Friis 20/02-2018
+ Joergen Friis 30/04-2018
 ****************************************************************/
 
 #include <Wire.h>
@@ -26,7 +26,7 @@
 const int stepPrCm = 660;  // fastsat eksperimentelt.
 const int glasHoejde = 37;
 const int startFyldning = 50;
-const int limit = 600;
+const int limit = 800;
 
 // Navngivning af input og output på Arduinoen
 // Digitale I/O pins
@@ -66,7 +66,7 @@ void setup()
   pinMode(irRead, INPUT);
   
   reset();
-  vaeske(50);
+ // vaeske(50);
 }
 
 // Afvikling af programmet
@@ -105,12 +105,12 @@ void reset()
     singleStep();
   }
   
-  while (analogRead(irRead) > limit)
-  {
-    Serial.println(analogRead(irRead));
-    digitalWrite(motorRetning, LOW);
-    singleStep();
-  }
+//  while (analogRead(irRead) > limit)
+//{
+//  Serial.println(analogRead(irRead));
+//  digitalWrite(motorRetning, LOW);
+//  singleStep();
+//}
   
   hoejde = 0;
 }
