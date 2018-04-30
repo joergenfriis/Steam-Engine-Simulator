@@ -3,7 +3,7 @@
 # Modul, der demonstrerer nogle af simulatorens funktioner,
 # uden at modtage brugerinput.
 #
-# Joergen Friis 28.01.2018
+# Joergen Friis 30.04.2018
 #
 #*****************************************************************************
 
@@ -14,12 +14,18 @@ import model
 import IRremote
 import servo
 import programvalg
+import skueglasOlie
+import skueglasKedel
+import servoTryk
+import servoTemp
 
 def demo():
 
     model.ModelStop()
 
     model.ModelReset()
+
+    pygame.mixer.quit()
 
     powernet.RelayAlloff()
 
@@ -60,6 +66,10 @@ def demo():
     pygame.mixer.music.play()
 
     servo.maskintelegraf_FF()
+    skueglasOlie.set(50)
+    skueglasKedel.set(70)
+    servoTryk.vis(0.2,8)
+    servoTemp.vis(300)
     model.ModelRun(100,0) # Styr modellen saa den foelger kommandoerne paa reallyden
 
     time.sleep(42)

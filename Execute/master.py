@@ -3,7 +3,7 @@
 # Hovedprogram, der vaelger det relevante underprogram paa baggrund
 # afprogramvaelgerens stilling
 #
-# Joergen Friis 02.02.2018
+# Joergen Friis 30.04.2018
 #
 ##############################################################################
 
@@ -34,7 +34,7 @@ while True:
         servoTryk.vis(1,0)
         servoTemp.vis(50)
         skueglasOlie.set(50)
-        skueglasKedel.set(70)
+        skueglasKedel.set(60)
         servo.maskintelegraf_FS()
         if (pygame.mixer.get_init != None):
             pygame.mixer.quit()
@@ -43,8 +43,6 @@ while True:
             
     while programvalg.read() == 1:
         print("Starter demoprogram")
-        skueglasOlie.set(50)
-        skueglasKedel.set(70)
         if programvalg.read() == 1:
             demo.demo()
             
