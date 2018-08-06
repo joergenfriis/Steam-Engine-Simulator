@@ -11,7 +11,7 @@ Denne udgave, ver.2, benytter en servomotor til bevægelse af gangskiftet.
 servomotoren styres direkte fra Python programmet med programlinjen servo.gangskifte(stilling), hvor stilling er 
 0 for fuld frem og 100 for fuld bak. 50 er neutral.
 
-Jørgen Friis 16.12.2017
+Jørgen Friis 06.08.2018
 ************************************************************************************************************************************/
 
 #include <Wire.h>
@@ -49,7 +49,7 @@ const int irRead = 0;              // analog input pin for IR-sensor
 // Variable ************************************************************************************
 
 int stepPosMain = 0;        // den aktuelle step position for hovedaksen
-int limit = 500;              // grænsen for hvornår IR-sensoren detekterer hullet i blændeskiven
+int limit = 600;              // grænsen for hvornår IR-sensoren detekterer hullet i blændeskiven
 int IRinput = 0;
 
 float hastighed = 0;            // hastighed afhænger af den tilførte energi og af stillingen på omstyringen
