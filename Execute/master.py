@@ -40,6 +40,7 @@ while True:
         if (pygame.mixer.get_init != None):
             pygame.mixer.quit()
         powernet.RelayAlloff()
+        time.sleep(5)
         # Her skal indsaettes noget kode, der kopierer klokkeslaet samt de
         # initiale tilstandsvaerdier ud i en tilstandsfil paa SD kortet
         subprocess.call(["sudo","shutdown","-h","now"])
