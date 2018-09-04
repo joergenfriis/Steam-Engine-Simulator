@@ -42,7 +42,7 @@ while True:
         powernet.RelayAlloff()
         # Her skal indsaettes noget kode, der kopierer klokkeslaet samt de
         # initiale tilstandsvaerdier ud i en tilstandsfil paa SD kortet
-        subprocess.call("sudo shutdown -h now")
+        subprocess.call(["sudo","shutdown","-h","now"])
         
             
     while programvalg.read() == 1:
