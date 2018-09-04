@@ -3,12 +3,13 @@
 # Hovedprogram, der vaelger det relevante underprogram paa baggrund
 # afprogramvaelgerens stilling
 #
-# Joergen Friis 30.04.2018
+# Joergen Friis 04.09.2018
 #
 ##############################################################################
 
 import pygame
 import time
+import subprocess
 import simulator
 import demo
 import programvalg
@@ -27,7 +28,7 @@ import servo
 while True:
     print("Starter program nummer ",programvalg.read())
     while programvalg.read() == 0:
-        print("Lukker alt ned undtagen programvalg")
+        print("Lukker alt ned")
         sikkerhedsventil.sikkerhedsventilOff()
         transport.TransportStop()
         model.ModelStop()
@@ -39,6 +40,9 @@ while True:
         if (pygame.mixer.get_init != None):
             pygame.mixer.quit()
         powernet.RelayAlloff()
+        # Her skal indsaettes noget kode, der kopierer klokkeslaet samt de
+        # initiale tilstandsvaerdier ud i en tilstandsfil paa SD kortet
+        subprocess.call("sudo shutdown -h now")
         
             
     while programvalg.read() == 1:
