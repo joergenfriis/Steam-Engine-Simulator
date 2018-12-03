@@ -22,7 +22,7 @@
 const int stepPrMm = 10;  // skal fastsaettes eksperimentelt.
 const int glasHoejde = 35;
 const int startFyldning = 60;
-const int limit = 500;
+const int limit = 400;
 
 // Navngivning af input og output på Arduinoen
 // Digitale I/O pins
