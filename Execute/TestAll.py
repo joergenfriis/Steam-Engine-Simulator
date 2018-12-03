@@ -26,20 +26,19 @@ import servoTemp
 
 print("Starter testprogram.")
 
-servoTryk.vis(0.5,5)
-servoTemp.vis(300)
-sikkerhedsventil.sikkerhedsventilOff()
-transport.TransportStop()
-powernet.RelayAlloff()
-skueglasOlie.set(50)
-skueglasKedel.set(70)
-time.sleep(5)
-servo.maskintelegraf_FS()
-time.sleep(5)
+# print(omstyring.Read_omstyring())
+# servoTryk.vis(1,0)
+# servoTemp.vis(300)
+skueglasOlie.reset()
+# sikkerhedsventil.sikkerhedsventilOff()
+# transport.TransportStop()
+# powernet.RelayAlloff()
+# time.sleep(5)
+# powernet.Relay3on()
 
+skueglasKedel.set(50)
 
-model.ModelStop()
-
+# IRremote.TVonOff()
 
 
 

@@ -201,7 +201,7 @@ def start(valg):
     tilstand[2] = 0
     tilstand[3] = 0
     tilstand[4] = 0
-    tilstand[5] = 0.7 * design[1]
+    tilstand[5] = 0.6 * design[1]
     tilstand[6] = 1
     tilstand[7] = 1
     tilstand[8] = 0
@@ -878,7 +878,7 @@ def start(valg):
                 smokeStart = realTid
 
         if (roeg == True) and ((realTid - smokeStart) < 310):
-            if (realTid - smokeStart) > 60:
+            if (realTid - smokeStart) > 90:
                 powernet.Relay9off()
                 #print("Roeg stoppes")
                 time.sleep(3)
@@ -1016,6 +1016,7 @@ def start(valg):
                 callTime = realTid
 
         if realTid > 1700:
+            IRremote.TVonOff()
             powernet.RelayAlloff()
             return      # Programmet stopper efter et gennemloeb af spillet og starter for fra med ny initiering
 
@@ -1023,7 +1024,7 @@ def start(valg):
     # DEBUGGING  ###############################################################################
 
         
-        print("Cykl = {:>4.0f}\tp = {:>4.2f} bar\tt = {:>6.2f} 0C\tE(ind) = {:>6.2f} kJ/sek  \tDamp i kedlen = {:>6.4f} kg\tMaskinydelse = {:>6.0f} %\t\tReal tid = {:>6.0f}".format(tid,tilstand[6],tilstand[13],tilstand[10],tilstand[17],tilstand[8],realTid))
+        print("Cykl = {:>4.0f}\tp = {:>4.2f} bar\tt = {:>6.2f} 0C\tE(ind) = {:>6.2f} kJ/sek  \tDamp i kedlen = {:>6.4f} kg\tMaskinydelse = {:>6.0f} %\t\tReal tid = {:>6.0f} %\t\Kedel_ind = {:>6.0f} %\t\Kedel_ud = {:>6.0f}".format(tid,tilstand[6],tilstand[13],tilstand[10],tilstand[17],tilstand[8],realTid,handling[5],handling[6]))
 
     #    for i in range(0,12):
     #        print("Handling[",i,"] = ",handling[i])

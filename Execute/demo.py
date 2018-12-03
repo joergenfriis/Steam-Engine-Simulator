@@ -200,6 +200,7 @@ def demo():
     time.sleep(35)
 
     model.ModelStop()
+    IRremote.TVonOff()
 
     pygame.mixer.music.stop()
 
