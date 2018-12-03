@@ -63,8 +63,8 @@ int averageF = 0;
 
 int Amin = 397;
 int Amax = 842;
-int Bmin = 440;
-int Bmax = 825;
+int Bmin = 202;
+int Bmax = 471;
 int Cmin = 309;  //eksperimentelt bestemt
 int Cmax = 828;
 int Dmin = 341;
@@ -80,19 +80,19 @@ void setup()
   Wire.begin(Slave_ADDRESS);
   Wire.onRequest(requestEvent);
   
-  //Serial.begin(9600);
+  Serial.begin(9600);
   
   for (int i = 0; i < REG_MAP_SIZE; i++)
   {
     registerMap[i] = 0;
   }
   
-  pinMode(A7, INPUT);  //damp ind         (A)
-  pinMode(A6, INPUT);  //damp ud          (B)
-  pinMode(A3, INPUT);  //kondensator ind  (C)
-  pinMode(A2, INPUT);  //kondensator ud   (D)
-  pinMode(A1, INPUT);  //kedelvand ind    (E)
-  pinMode(A0, INPUT);  //kedelvand ud     (F)
+  pinMode(A7, INPUT);  //Kedelvand ud         (A)
+  pinMode(A6, INPUT);  //Kedelvand ind        (B)
+  pinMode(A3, INPUT);  //kondensator ud  (C)
+  pinMode(A2, INPUT);  //kondensator ind   (D)
+  pinMode(A1, INPUT);  //Damp ind    (E)
+  pinMode(A0, INPUT);  //Damp ud   (F)
   
   for (int i = 0; i < numReadings; i++)
   {
